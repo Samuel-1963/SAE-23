@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyWatch - Accueil</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/icon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <button id="menu-toggle" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a href="index.html" class="titre-accueil">
+            <h1>EnergyWatch</h1>
+        </a>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="pages/administration.php">Administration</a></li>
+                <li><a href="pages/gestion.php">Gestion</a></li>
+                <li><a href="pages/consultation.html">Consultation</a></li>
+                <li><a href="#">Gestion de Projet</a>
+                    <ul class="sous-menu">
+                        <li><a href="pages/gantt.html">GANTT</a></li>
+                        <li><a href="pages/syntheses.html">Synthèses personnelles</a></li>
+                        <li><a href="pages/problemes.html">Problèmes / Solutions</a></li>
+                        <li><a href="pages/conclusion.html">Conclusion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section d'Accueil -->
+        <section id="accueil">
+            <div class="accueil-conteneur">
+                <h2>Bienvenue sur la plateforme de gestion des bâtiments de l'IUT</h2>
+                <p>Ce site a été conçu dans le cadre de la SAÉ23 pour offrir une interface simple et intuitive dédiée à la gestion et à la consultation des données issues des capteurs installés dans les bâtiments de l'IUT.</p>
+            </div>
+            <ul>
+                <li><strong>Consultation</strong> des mesures (température, humidité...)</li>
+                <li><strong>Gestion</strong> des bâtiments, des salles et des capteurs</li>
+                <li><strong>Accès public</strong> à certaines données via la page Consultation</li>
+            </ul>
+        </section>
+
+        <!-- Section Bâtiments -->
+        <section id="batiments">
+            <h2>Bâtiments gérés</h2>
+            <p>Actuellement, deux bâtiments sont pris en charge :</p>
+            <ul>
+                <li><strong>Bâtiment A</strong> - Le Bâtiment principal de l'IUT</li>
+                <li><strong>Bâtiment E</strong> - Le Bâtiment R&T de l'IUT</li>
+            </ul>
+        </section>
+
+        <!-- Section Salles équipées -->
+        <section id="salles">
+            <h2>Salles équipées</h2>
+            <p>Voici les salles surveillées ainsi que leurs équipements :</p>
+            <div class="tableau-conteneur">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Salle</th>
+                            <th>Bâtiment</th>
+                            <th>Type</th>
+                            <th>Capacité</th>
+                            <th>Capteurs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>E208</td>
+                            <td>E</td>
+                            <td>Salle de TP</td>
+                            <td>15</td>
+                            <td>Température, Humidité</td>
+                        </tr>
+                        <tr>
+                            <td>E103</td>
+                            <td>E</td>
+                            <td>Salle de TP</td>
+                            <td>15</td>
+                            <td>Température, Lumière</td>
+                        </tr>
+                        <tr>
+                            <td>A010</td>
+                            <td>A</td>
+                            <td>Salle d'examen</td>
+                            <td>80+</td>
+                            <td>Température, CO₂</td>
+                        </tr>
+                        <tr>
+                            <td>E003</td>
+                            <td>E</td>
+                            <td>Salle de cours</td>
+                            <td>30</td>
+                            <td>Humidité, Présence</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="pages/mentions-legales.html">Mentions légales</a></p>
+    </footer>
+
+    <script>
+        // Gestion du menu mobile
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+            
+            // Animation des icônes
+            this.querySelectorAll('span').forEach(span => 
+                span.classList.toggle('active'));
+        });
+    </script>
+</body>
+</html>

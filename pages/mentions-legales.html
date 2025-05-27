@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentions légales - EnergyWatch</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../images/icon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <button id="menu-toggle" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a href="../index.html" class="titre-accueil">
+            <h1>EnergyWatch</h1>
+        </a>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="administration.php">Administration</a></li>
+                <li><a href="gestion.php">Gestion</a></li>
+                <li><a href="consultation.html">Consultation</a></li>
+                <li><a href="#">Gestion de Projet</a>
+                    <ul class="sous-menu">
+                        <li><a href="gantt.html">GANTT</a></li>
+                        <li><a href="syntheses.html">Synthèses personnelles</a></li>
+                        <li><a href="problemes.html">Problèmes / Solutions</a></li>
+                        <li><a href="conclusion.html">Conclusion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="mentions-legales">
+            <h2>📌 Mentions légales</h2>
+
+            <p><strong>Nom du site :</strong> EnergyWatch</p>
+            <p><strong>Nature :</strong> Ce site a été développé dans le cadre d'un projet pédagogique de l'IUT de Blagnac, pour la SAÉ23 du BUT Réseaux & Télécommunications. Il ne s'agit pas d'un site commercial ou officiel.</p>
+        </br>
+            <p><strong>Équipe projet :</strong></p>
+            <ul>
+                <li><strong>Samuel DESCOURS</strong>(<a href="mailto:samuel.descours.iut@gmail.com">samuel.descours.iut@gmail.com</a>)</li>
+                <li><strong>Lilian DEPOISIER</strong>(<a href="mailto:lilian.depoisier.iut@gmail.com">lilian.depoisier.iut@gmail.com</a>)</li>
+                <li><strong>Paul MONTAIGNAC</strong>(<a href="mailto:khalid.massaoudi@univ-tlse2.fr">paul.montaignac.iut@gmail.com</a>)</li>
+                <li><strong>Joy-Floris GUERIN</strong>(<a href="mailto:khalid.massaoudi@univ-tlse2.fr">joy-floris.guerin.iut@gmail.com</a>)</li>
+                <li><strong>Selwan BOURMEL</strong>(<a href="mailto:khalid.massaoudi@univ-tlse2.fr">selwan.bourmel.iut@gmail.com</a>)</li>
+            </ul>
+        </br>
+            <p><strong>Encadrant pédagogique :</strong> Khalid Massaoudi  
+            (<a href="mailto:khalid.massaoudi@univ-tlse2.fr">khalid.massaoudi@univ-tlse2.fr</a>)</p>
+        </br>
+            <p><strong>Responsable de la publication :</strong> L'équipe projet SAÉ23 - IUT de Blagnac</p>
+        </br>
+            <p><strong>Hébergement :</strong><br>
+            Le site est hébergé localement dans un environnement de test via <strong>LAMPP</strong> sur des machines virtuelles <em>Lubuntu GNU/Linux</em>. Aucune publication sur un hébergeur externe n'est réalisée.</p>
+        </br>
+            <p><strong>Technologies utilisées :</strong></p>
+            <ul>
+                <li>HTML5 / CSS3 pour la structure et le style</li>
+                <li>PHP pour l'accès aux données</li>
+                <li>MySQL pour la gestion de la base de données</li>
+                <li>MQTT, Node-RED, Grafana pour la chaîne IoT</li>
+                <li>Git & GitHub pour le suivi de version</li>
+            </ul>
+        </br>
+            <p><strong>Confidentialité :</strong><br>
+            Ce site n'enregistre aucune donnée personnelle.</p>
+        </br>
+            <p><strong>Propriété intellectuelle :</strong><br>
+            Ce projet appartient à ses auteurs dans un cadre éducatif. Toute reproduction, même partielle, est interdite sans autorisation expresse de l'équipe projet ou de l'enseignant référent.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+            this.querySelectorAll('span').forEach(span =>
+                span.classList.toggle('active'));
+        });
+    </script>
+</body>
+</html>
