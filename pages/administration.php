@@ -26,8 +26,10 @@ if (isset($_GET['logout'])) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Administration - EnergyWatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyWatch - Consultation</title>
     <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../images/icon.ico" type="image/x-icon">
 </head>
 <body>
     <header>
@@ -119,7 +121,16 @@ if (isset($_GET['logout'])) {
     </main>
 
     <footer>
-        <p>&copy; 2025 EnergyWatch - Tous droits réservés</p>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
     </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+            this.querySelectorAll('span').forEach(span =>
+                span.classList.toggle('active'));
+        });
+    </script>
 </body>
 </html>
