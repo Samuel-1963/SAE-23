@@ -90,10 +90,15 @@ if (isset($_GET['logout'])) {
 
                     <?php
                     try {
-                        $pdo = new PDO("mysql:host=localhost;dbname=energywatch", "root", "");
+                        $pdo = new PDO("mysql:host=localhost;dbname=energywatch;charset=utf8", "root", "", [
+                            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                        ]);
+
                         $id_bat = $_SESSION['batiment_id'];
 
-                        $sql = "
+                        // Récupération des mesures
+                        $sqlMesures = "
                             SELECT s.nom AS salle, c.nom AS capteur, m.valeur, m.date_heure
                             FROM mesures m
                             JOIN capteurs c ON m.id_capteur = c.id
@@ -102,38 +107,38 @@ if (isset($_GET['logout'])) {
                             ORDER BY m.date_heure DESC
                             LIMIT 20
                         ";
-
-                        $stmt = $pdo->prepare($sql);
-                        $stmt->execute(['id_bat' => $id_bat]);
-                        $mesures = $stmt->fetchAll();
+                        $stmtMesures = $pdo->prepare($sqlMesures);
+                        $stmtMesures->execute(['id_bat' => $id_bat]);
+                        $mesures = $stmtMesures->fetchAll();
 
                         if ($mesures):
                     ?>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Salle</th>
-                                <th>Capteur</th>
-                                <th>Valeur</th>
-                                <th>Date/Heure</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($mesures as $m): ?>
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td><?= htmlspecialchars($m['salle']) ?></td>
-                                    <td><?= htmlspecialchars($m['capteur']) ?></td>
-                                    <td><?= htmlspecialchars($m['valeur']) ?></td>
-                                    <td><?= htmlspecialchars($m['date_heure']) ?></td>
+                                    <th>Salle</th>
+                                    <th>Capteur</th>
+                                    <th>Valeur</th>
+                                    <th>Date/Heure</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($mesures as $m): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($m['salle']) ?></td>
+                                        <td><?= htmlspecialchars($m['capteur']) ?></td>
+                                        <td><?= htmlspecialchars($m['valeur']) ?></td>
+                                        <td><?= htmlspecialchars($m['date_heure']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     <?php else: ?>
                         <p>Aucune mesure trouvée pour ce bâtiment.</p>
                     <?php endif; ?>
 
                     <h3>Statistiques par salle (min / max / moyenne)</h3>
+
                     <?php
                         $sqlStats = "
                             SELECT s.nom AS salle,
@@ -147,45 +152,58 @@ if (isset($_GET['logout'])) {
                             WHERE s.id_batiment = :id_bat
                             GROUP BY s.nom, c.nom
                         ";
-
                         $stmtStats = $pdo->prepare($sqlStats);
                         $stmtStats->execute(['id_bat' => $id_bat]);
                         $stats = $stmtStats->fetchAll();
 
                         if ($stats):
                     ?>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Salle</th>
-                                <th>Capteur</th>
-                                <th>Min</th>
-                                <th>Max</th>
-                                <th>Moyenne</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($stats as $s): ?>
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td><?= htmlspecialchars($s['salle']) ?></td>
-                                    <td><?= htmlspecialchars($s['capteur']) ?></td>
-                                    <td><?= htmlspecialchars($s['min']) ?></td>
-                                    <td><?= htmlspecialchars($s['max']) ?></td>
-                                    <td><?= htmlspecialchars($s['moyenne']) ?></td>
+                                    <th>Salle</th>
+                                    <th>Capteur</th>
+                                    <th>Min</th>
+                                    <th>Max</th>
+                                    <th>Moyenne</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($stats as $s): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($s['salle']) ?></td>
+                                        <td><?= htmlspecialchars($s['capteur']) ?></td>
+                                        <td><?= htmlspecialchars($s['min']) ?></td>
+                                        <td><?= htmlspecialchars($s['max']) ?></td>
+                                        <td><?= htmlspecialchars($s['moyenne']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     <?php else: ?>
                         <p>Aucune statistique disponible pour ce bâtiment.</p>
                     <?php endif; ?>
+                    <?php
+                    } catch (PDOException $e) {
+                        echo "<p style='color:red;'>Erreur de connexion ou requête SQL : " . htmlspecialchars($e->getMessage()) . "</p>";
+                    }
+                    ?>
                 </div>
             <?php endif; ?>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 EnergyWatch - Tous droits réservés</p>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
     </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+            this.querySelectorAll('span').forEach(span =>
+                span.classList.toggle('active'));
+        });
+    </script>
 </body>
 </html>
