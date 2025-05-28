@@ -63,11 +63,11 @@ if (isset($_GET['logout'])) {
     </header>
 
     <main>
-        <section id="gestion">
+        <section id="admin">
             <h2>📋 Espace Gestionnaire</h2>
 
             <?php if (!isset($_SESSION['gestionnaire'])): ?>
-                <div class="gestion-login">
+                <div class="admin-login">
                     <h3>Connexion Gestionnaire</h3>
                     <?php if (isset($erreur)) echo "<p style='color:red;'>$erreur</p>"; ?>
                     <form action="gestion.php" method="POST">
@@ -85,7 +85,7 @@ if (isset($_GET['logout'])) {
                     <a href="gestion.php?logout=true">Se déconnecter</a>
                 </p>
 
-                <div class="donnees-gestion">
+                <div class="admin-panel">
                     <h3>Mesures des capteurs – Bâtiment ID : <?= $_SESSION['batiment_id'] ?></h3>
 
                     <?php
