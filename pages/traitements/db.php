@@ -1,8 +1,8 @@
 <?php
-$host = '192.168.108.140';        // Adresse du serveur MySQL
-$dbname = 'energywatch';    // Nom de ta base de données
-$user = 'jguerin';             // Nom d'utilisateur MySQL
-$pass = 'passroot';                 // Mot de passe MySQL (souvent vide en local)
+$host = '192.168.108.140';
+$dbname = 'iut'; 
+$user = 'jguerin';
+$pass = 'passroot';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
