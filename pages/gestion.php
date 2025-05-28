@@ -88,7 +88,7 @@ if (isset($_GET['logout'])) {
                 </p>
 
                 <div class="admin-panel">
-                    <h3>Mesures des capteurs – Bâtiment ID : <?= $_SESSION['batiment_id'] ?></h3>
+                    <h3>Mesures des capteurs - Bâtiment ID : <?= $_SESSION['batiment_id'] ?></h3>
 
                     <?php
                     try {
