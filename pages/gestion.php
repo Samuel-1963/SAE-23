@@ -37,14 +37,14 @@ if (isset($_GET['logout'])) {
 </head>
 <body>
     <header>
+        <a href="../index.html" class="titre-accueil">
+            <h1>EnergyWatch</h1>
+        </a>
         <button id="menu-toggle" aria-label="Ouvrir le menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
-        <a href="../index.html" class="titre-accueil">
-            <h1>EnergyWatch</h1>
-        </a>
         <nav id="main-nav">
             <ul>
                 <li><a href="administration.php">Administration</a></li>
