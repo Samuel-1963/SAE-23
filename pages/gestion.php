@@ -156,11 +156,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
         
         if ($stats && $stats->num_rows > 0) {
             while ($salle = $stats->fetch_assoc()) {
-                echo "<h3>Salle ".htmlspecialchars($salle['salle'])."</h3>";
-                echo "<p>🌡️ Température: Moy=".round($salle['avg_temp'], 1)."°C | Min=".round($salle['min_temp'], 1)."°C | Max=".round($salle['max_temp'], 1)."°C</p>";
-                echo "<p>💧 Humidité: Moy=".round($salle['avg_hum'], 1)."%</p>";
-                echo "<p>💡 Lumière: Moy=".round($salle['avg_lum'], 1)." lux</p>";
-                echo "<p>☁️ CO2: Moy=".round($salle['avg_co2'], 1)." ppm</p>";
+                echo "<h3>Salle " . htmlspecialchars($salle['salle']) . "</h3>";
+
+                if (is_numeric($salle['avg_temp'])) {
+                    echo "<p>🌡️ Température: Moy=" . round($salle['avg_temp'], 1) . "°C";
+                    if (is_numeric($salle['min_temp']) && is_numeric($salle['max_temp'])) {
+                        echo " | Min=" . round($salle['min_temp'], 1) . "°C | Max=" . round($salle['max_temp'], 1) . "°C";
+                    }
+                    echo "</p>";
+                }
+
+                if (is_numeric($salle['avg_hum'])) {
+                    echo "<p>💧 Humidité: Moy=" . round($salle['avg_hum'], 1) . "%</p>";
+                }
+
+                if (is_numeric($salle['avg_lum'])) {
+                    echo "<p>💡 Lumière: Moy=" . round($salle['avg_lum'], 1) . " lux</p>";
+                }
+
+                if (is_numeric($salle['avg_co2'])) {
+                    echo "<p>☁️ CO2: Moy=" . round($salle['avg_co2'], 1) . " ppm</p>";
+                }
             }
         } else {
             echo "<p>Aucune donnée statistique disponible.</p>";
