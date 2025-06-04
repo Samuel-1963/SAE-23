@@ -53,63 +53,78 @@ $filtres = isset($_SESSION['filtres']) ? $_SESSION['filtres'] : array();
     <a href="gestion.php" class="back-btn">← Retour</a>
     <h1>Résultats de recherche</h1>
     
-    <?php
-    $sql = "SELECT * FROM Mesure WHERE nom_cap LIKE 'E%'";
+<?php
+$sql = "SELECT * FROM Mesure WHERE nom_cap LIKE 'E%'";
+
+if (!empty($filtres['salle'])) {
+    $sql .= " AND nom_cap LIKE '".$filtres['salle']."%'";
+}
+
+if (!empty($filtres['type'])) {
+    $sql .= " AND nom_cap LIKE '%".$filtres['type']."'";
+}
+
+if (!empty($filtres['date_debut'])) {
+    $sql .= " AND date_mesure >= '".$filtres['date_debut']."'";
+}
+
+if (!empty($filtres['date_fin'])) {
+    $sql .= " AND date_mesure <= '".$filtres['date_fin']."'";
+}
+
+$result = $conn->query($sql);
+
+if ($result && $result->num_rows > 0) {
+    echo '<div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Capteur</th>
+                        <th>Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>';
     
-    if (!empty($filtres['salle'])) {
-        $sql .= " AND nom_cap LIKE '".$filtres['salle']."%'";
-    }
-    
-    if (!empty($filtres['type'])) {
-        $sql .= " AND nom_cap LIKE '%".$filtres['type']."'";
-    }
-    
-    if (!empty($filtres['date_debut'])) {
-        $sql .= " AND date_mesure >= '".$filtres['date_debut']."'";
-    }
-    
-    if (!empty($filtres['date_fin'])) {
-        $sql .= " AND date_mesure <= '".$filtres['date_fin']."'";
-    }
-    
-    $result = $conn->query($sql);
-    
-    if ($result && $result->num_rows > 0) {
-        echo "<table>
-                <tr>
-                    <th>Date</th>
-                    <th>Heure</th>
-                    <th>Capteur</th>
-                    <th>Valeur</th>
-                </tr>";
+    while ($row = $result->fetch_assoc()) {
+        $type = substr($row['nom_cap'], 5);
+        $unite = '';
+        $sensorClass = '';
         
-        while ($row = $result->fetch_assoc()) {
-            $type = substr($row['nom_cap'], 5);
-            $unite = '';
-            
-            if ($type === 'temperature') {
-                $unite = '°C';
-            } elseif ($type === 'humidite') {
-                $unite = '%';
-            } elseif ($type === 'luminosite') {
-                $unite = 'lux';
-            } elseif ($type === 'co2') {
-                $unite = 'ppm';
-            }
-            
-            echo "<tr>
-                    <td>".htmlspecialchars($row['date_mesure'])."</td>
-                    <td>".htmlspecialchars($row['horaire_mesure'])."</td>
-                    <td>".htmlspecialchars($row['nom_cap'])."</td>
-                    <td>".htmlspecialchars($row['valeur_mesure'])."$unite</td>
-                  </tr>";
+        // Déterminer la classe CSS et l'unité en fonction du type de capteur
+        if (strpos($row['nom_cap'], 'temperature') !== false) {
+            $sensorClass = 'sensor-temp';
+            $unite = '°C';
+        } elseif (strpos($row['nom_cap'], 'humidite') !== false) {
+            $sensorClass = 'sensor-humidity';
+            $unite = '%';
+        } elseif (strpos($row['nom_cap'], 'luminosite') !== false) {
+            $sensorClass = 'sensor-light';
+            $unite = 'lux';
+        } elseif (strpos($row['nom_cap'], 'co2') !== false) {
+            $sensorClass = 'sensor-co2';
+            $unite = 'ppm';
+        } elseif (strpos($row['nom_cap'], 'press') !== false) {
+            $sensorClass = 'sensor-pressure';
+            $unite = 'hPa';
         }
         
-        echo "</table>";
-    } else {
-        echo "<p>Aucun résultat trouvé avec ces filtres</p>";
+        echo "<tr>
+                <td>".htmlspecialchars($row['date_mesure'])."</td>
+                <td>".htmlspecialchars($row['horaire_mesure'])."</td>
+                <td>".htmlspecialchars($row['nom_cap'])."</td>
+                <td class='".$sensorClass."'>".htmlspecialchars($row['valeur_mesure'])." ".$unite."</td>
+              </tr>";
     }
-    ?>
+    
+    echo '      </tbody>
+            </table>
+          </div>';
+} else {
+    echo "<p>Aucun résultat trouvé avec ces filtres</p>";
+}
+?>
 </main>
 
     <footer>
