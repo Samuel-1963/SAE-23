@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+// Gestion de la déconnexion
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header('Location: gestion.php');
+    exit();
+}
+
 // Authentification directe
 if (!isset($_SESSION['gest_connecte'])) {
     $login = isset($_POST['login']) ? $_POST['login'] : '';
@@ -127,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
     </header>
 
 <main>
-    <h1>Gestion Bâtiment E <a href="?logout=1" class="logout">Déconnexion</a></h1>
+    <h1>Gestion Bâtiment E <a href="gestion.php?logout=1" class="logout">Déconnexion</a>
 
     <!-- Statistiques par salle -->
     <div class="card">
