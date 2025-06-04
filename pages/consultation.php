@@ -124,7 +124,3 @@
     </script>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>
