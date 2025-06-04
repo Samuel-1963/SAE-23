@@ -64,15 +64,6 @@ if (!isset($_SESSION['gest_connecte'])) {
             <footer>
                 <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
             </footer>
-
-            <script>
-                document.getElementById('menu-toggle').addEventListener('click', function () {
-                    const nav = document.getElementById('main-nav');
-                    nav.classList.toggle('active');
-                    this.querySelectorAll('span').forEach(span =>
-                        span.classList.toggle('active'));
-                });
-            </script>
         </body>
         </html>
         ');
