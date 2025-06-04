@@ -55,9 +55,11 @@ if (!isset($_SESSION['gest_connecte'])) {
                 </nav>
             </header>
             <main>
-                <a href="../index.html" class="back-btn">← Retour</a>
-                <h1>Connexion</h1>
-                <p>Veuillez vous connecter pour accéder à la gestion du bâtiment E.</p>
+                <div class="admin-login">
+                    <a href="../index.html" class="back-btn">← Retour</a>
+                    <h1>Connexion</h1>
+                    <p>Veuillez vous connecter pour accéder à la gestion du bâtiment E.</p>
+                </div>
             <div class="login-box">
                 <h2>Connexion</h2>
                 <form method="post">
