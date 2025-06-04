@@ -213,55 +213,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
 
     <!-- Dernières mesures -->
     <h2>📝 Dernières Mesures</h2>
+<div class="table-container">
     <table>
-        <tr>
-            <th>Date/Heure</th>
-            <th>Salle</th>
-            <th>Type</th>
-            <th>Valeur</th>
-        </tr>
-        <?php
-        $mesures = $conn->query("
-            SELECT 
-                date_mesure, 
-                horaire_mesure, 
-                nom_cap,
-                valeur_mesure
-            FROM Mesure
-            WHERE nom_cap LIKE 'E%'
-            ORDER BY date_mesure DESC, horaire_mesure DESC
-            LIMIT 20
-        ");
-        
-        if ($mesures && $mesures->num_rows > 0) {
-            while ($m = $mesures->fetch_assoc()) {
-                $salle = substr($m['nom_cap'], 0, 4);
-                $type = substr($m['nom_cap'], 5);
-                $classe = 'sensor-' . substr($type, 0, 3);
-                $unite = '';
-                
-                if ($type === 'temperature') {
-                    $unite = '°C';
-                } elseif ($type === 'humidite') {
-                    $unite = '%';
-                } elseif ($type === 'luminosite') {
-                    $unite = 'lux';
-                } elseif ($type === 'co2') {
-                    $unite = 'ppm';
+        <thead>
+            <tr>
+                <th>Date/Heure</th>
+                <th>Salle</th>
+                <th>Type</th>
+                <th>Valeur</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $mesures = $conn->query("
+                SELECT 
+                    date_mesure, 
+                    horaire_mesure, 
+                    nom_cap,
+                    valeur_mesure
+                FROM Mesure
+                WHERE nom_cap LIKE 'E%'
+                ORDER BY date_mesure DESC, horaire_mesure DESC
+                LIMIT 20
+            ");
+            
+            if ($mesures && $mesures->num_rows > 0) {
+                while ($m = $mesures->fetch_assoc()) {
+                    $salle = substr($m['nom_cap'], 0, 4);
+                    $type = substr($m['nom_cap'], 5);
+                    $classe = 'sensor-' . substr($type, 0, 3);
+                    $unite = '';
+                    
+                    // Déterminer la classe CSS et l'unité comme dans le premier exemple
+                    if (strpos($m['nom_cap'], 'temperature') !== false) {
+                        $classe = 'sensor-temp';
+                        $unite = '°C';
+                    } elseif (strpos($m['nom_cap'], 'humidite') !== false) {
+                        $classe = 'sensor-humidity';
+                        $unite = '%';
+                    } elseif (strpos($m['nom_cap'], 'luminosite') !== false) {
+                        $classe = 'sensor-light';
+                        $unite = 'lux';
+                    } elseif (strpos($m['nom_cap'], 'co2') !== false) {
+                        $classe = 'sensor-co2';
+                        $unite = 'ppm';
+                    } elseif (strpos($m['nom_cap'], 'press') !== false) {
+                        $classe = 'sensor-pressure';
+                        $unite = 'hPa';
+                    }
+                    
+                    echo "<tr>
+                            <td>".htmlspecialchars($m['date_mesure'])." ".htmlspecialchars($m['horaire_mesure'])."</td>
+                            <td>".htmlspecialchars($salle)."</td>
+                            <td>".htmlspecialchars($type)."</td>
+                            <td class='".$classe."'>".htmlspecialchars($m['valeur_mesure'])." ".$unite."</td>
+                          </tr>";
                 }
-                
-                echo "<tr>
-                        <td>".htmlspecialchars($m['date_mesure'])." ".htmlspecialchars($m['horaire_mesure'])."</td>
-                        <td>".htmlspecialchars($salle)."</td>
-                        <td>".htmlspecialchars($type)."</td>
-                        <td class='".htmlspecialchars($classe)."'>".htmlspecialchars($m['valeur_mesure'])."$unite</td>
-                      </tr>";
+            } else {
+                echo "<tr><td colspan='4'>Aucune mesure récente</td></tr>";
             }
-        } else {
-            echo "<tr><td colspan='4'>Aucune mesure récente</td></tr>";
-        }
-        ?>
+            ?>
+        </tbody>
     </table>
+</div>
     </main>
 
     <footer>
