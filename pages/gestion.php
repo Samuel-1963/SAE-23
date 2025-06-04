@@ -3,17 +3,36 @@ session_start();
 
 // Authentification directe
 if (!isset($_SESSION['gest_connecte'])) {
-    if (($_POST['login'] ?? '') === 'Gerant' && ($_POST['password'] ?? '') === 'hgvcJB564F*') {
+    $login = isset($_POST['login']) ? $_POST['login'] : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    
+    if ($login === 'Gerant' && $password === 'hgvcJB564F*') {
         $_SESSION['gest_connecte'] = true;
     } else {
         // Formulaire de connexion intégré
         die('
-        <h2>Connexion Requise</h2>
-        <form method="post">
-            <input type="text" name="login" placeholder="Login" required><br>
-            <input type="password" name="password" placeholder="Mot de passe" required><br>
-            <button type="submit">Se connecter</button>
-        </form>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Connexion</title>
+            <style>
+                body { font-family: Arial, sans-serif; background: #f0f0f0; }
+                .login-box { max-width: 300px; margin: 100px auto; background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+                input { width: 100%; padding: 8px; margin: 5px 0; }
+                button { width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+            </style>
+        </head>
+        <body>
+            <div class="login-box">
+                <h2>Connexion</h2>
+                <form method="post">
+                    <input type="text" name="login" placeholder="Login" required>
+                    <input type="password" name="password" placeholder="Mot de passe" required>
+                    <button type="submit">Se connecter</button>
+                </form>
+            </div>
+        </body>
+        </html>
         ');
     }
 }
@@ -23,13 +42,13 @@ $conn = new mysqli('localhost', 'guerin', 'passroot', 'sae23');
 if ($conn->connect_error) die("Connexion échouée : " . $conn->connect_error);
 
 // Traitement du formulaire de recherche
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recherche'])) {
-    $filtres = [
-        'salle' => $conn->real_escape_string($_POST['salle'] ?? ''),
-        'type' => $conn->real_escape_string($_POST['type'] ?? ''),
-        'date_debut' => $conn->real_escape_string($_POST['date_debut'] ?? ''),
-        'date_fin' => $conn->real_escape_string($_POST['date_fin'] ?? '')
-    ];
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
+    $filtres = array(
+        'salle' => $conn->real_escape_string(isset($_POST['salle']) ? $_POST['salle'] : ''),
+        'type' => $conn->real_escape_string(isset($_POST['type']) ? $_POST['type'] : ''),
+        'date_debut' => $conn->real_escape_string(isset($_POST['date_debut']) ? $_POST['date_debut'] : ''),
+        'date_fin' => $conn->real_escape_string(isset($_POST['date_fin']) ? $_POST['date_fin'] : '')
+    );
     
     // Stockage pour réutilisation
     $_SESSION['filtres'] = $filtres;
@@ -43,19 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recherche'])) {
 <head>
     <meta charset="UTF-8">
     <title>Gestion Bâtiment E</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .card { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        th, td { padding: 10px; border: 1px solid #ddd; }
-        th { background-color: #f2f2f2; }
-        .sensor-temp { color: #e74c3c; }
-        .sensor-hum { color: #3498db; }
-        .sensor-lum { color: #f39c12; }
-        .sensor-co2 { color: #2ecc71; }
-        .logout { float: right; }
-        .form-group { margin: 10px 0; }
-    </style>
 </head>
 <body>
 
@@ -79,12 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recherche'])) {
             GROUP BY salle
         ");
         
-        while ($salle = $stats->fetch_assoc()) {
-            echo "<h3>Salle {$salle['salle']}</h3>";
-            echo "<p>🌡️ Température: Moy={$salle['avg_temp']}°C | Min={$salle['min_temp']}°C | Max={$salle['max_temp']}°C</p>";
-            echo "<p>💧 Humidité: Moy={$salle['avg_hum']}%</p>";
-            echo "<p>💡 Lumière: Moy={$salle['avg_lum']}lux</p>";
-            echo "<p>☁️ CO2: Moy={$salle['avg_co2']}ppm</p>";
+        if ($stats && $stats->num_rows > 0) {
+            while ($salle = $stats->fetch_assoc()) {
+                echo "<h3>Salle ".htmlspecialchars($salle['salle'])."</h3>";
+                echo "<p>🌡️ Température: Moy=".round($salle['avg_temp'], 1)."°C | Min=".round($salle['min_temp'], 1)."°C | Max=".round($salle['max_temp'], 1)."°C</p>";
+                echo "<p>💧 Humidité: Moy=".round($salle['avg_hum'], 1)."%</p>";
+                echo "<p>💡 Lumière: Moy=".round($salle['avg_lum'], 1)." lux</p>";
+                echo "<p>☁️ CO2: Moy=".round($salle['avg_co2'], 1)." ppm</p>";
+            }
+        } else {
+            echo "<p>Aucune donnée statistique disponible.</p>";
         }
         ?>
     </div>
@@ -101,8 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recherche'])) {
                         <option value="">Toutes</option>
                         <?php
                         $salles = $conn->query("SELECT DISTINCT SUBSTRING(nom_cap, 1, 4) as salle FROM Capteur WHERE nom_cap LIKE 'E%'");
-                        while ($s = $salles->fetch_assoc()) {
-                            echo "<option value='{$s['salle']}'>{$s['salle']}</option>";
+                        if ($salles && $salles->num_rows > 0) {
+                            while ($s = $salles->fetch_assoc()) {
+                                echo "<option value='".htmlspecialchars($s['salle'])."'>".htmlspecialchars($s['salle'])."</option>";
+                            }
                         }
                         ?>
                     </select>
@@ -126,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recherche'])) {
                 <label>Au: <input type="date" name="date_fin" required></label>
             </div>
             
-            <button type="submit">Rechercher</button>
+            <button type="submit" class="btn">Rechercher</button>
         </form>
     </div>
 
@@ -152,24 +164,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recherche'])) {
             LIMIT 20
         ");
         
-        while ($m = $mesures->fetch_assoc()) {
-            $salle = substr($m['nom_cap'], 0, 4);
-            $type = substr($m['nom_cap'], 5);
-            $classe = 'sensor-' . substr($type, 0, 3);
-            $unite = match($type) {
-                'temperature' => '°C',
-                'humidite' => '%',
-                'luminosite' => 'lux',
-                'co2' => 'ppm',
-                default => ''
-            };
-            
-            echo "<tr>
-                    <td>{$m['date_mesure']} {$m['horaire_mesure']}</td>
-                    <td>{$salle}</td>
-                    <td>{$type}</td>
-                    <td class='{$classe}'>{$m['valeur_mesure']}{$unite}</td>
-                  </tr>";
+        if ($mesures && $mesures->num_rows > 0) {
+            while ($m = $mesures->fetch_assoc()) {
+                $salle = substr($m['nom_cap'], 0, 4);
+                $type = substr($m['nom_cap'], 5);
+                $classe = 'sensor-' . substr($type, 0, 3);
+                $unite = '';
+                
+                if ($type === 'temperature') {
+                    $unite = '°C';
+                } elseif ($type === 'humidite') {
+                    $unite = '%';
+                } elseif ($type === 'luminosite') {
+                    $unite = 'lux';
+                } elseif ($type === 'co2') {
+                    $unite = 'ppm';
+                }
+                
+                echo "<tr>
+                        <td>".htmlspecialchars($m['date_mesure'])." ".htmlspecialchars($m['horaire_mesure'])."</td>
+                        <td>".htmlspecialchars($salle)."</td>
+                        <td>".htmlspecialchars($type)."</td>
+                        <td class='".htmlspecialchars($classe)."'>".htmlspecialchars($m['valeur_mesure'])."$unite</td>
+                      </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='4'>Aucune mesure récente</td></tr>";
         }
         ?>
     </table>
