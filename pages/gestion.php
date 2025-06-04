@@ -134,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
     </header>
 
     <main>
+        <section id="consultation">
         <div class="consultation-entete">
             <h1>Gestion Bâtiment E <a href="gestion.php?logout=1" class="logout">Déconnexion</a>
         </div>
@@ -303,6 +304,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
                 </tbody>
             </table>
         </div>
+    </section>
     </main>
 
     <footer>
