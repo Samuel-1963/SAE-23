@@ -41,73 +41,75 @@
                 <h2>📈 Consultation des mesures</h2>
                 <p>Cette page affiche la dernière mesure enregistrée par chaque capteur présent dans les bâtiments. Les données sont automatiquement mises à jour.</p>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Heure</th>
-                        <th>Capteur</th>
-                        <th>Valeur</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Connexion à la base de données
-                    $servername = "localhost";
-                    $username = "guerin";
-                    $password = "passroot";
-                    $dbname = "sae23";
-                    
-                    // Création de la connexion
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-                    
-                    // Vérifier la connexion
-                    if ($conn->connect_error) {
-                        die("Échec de la connexion : " . $conn->connect_error);
-                    }
-                    
-                    // Requête SQL pour récupérer les 50 dernières mesures
-                    $sql = "SELECT date_mesure, horaire_mesure, nom_cap, valeur_mesure 
-                            FROM Mesure 
-                            ORDER BY date_mesure DESC, horaire_mesure DESC 
-                            LIMIT 50";
-                    $result = $conn->query($sql);
-                    
-                    // Vérifier s'il y a des résultats
-                    if ($result->num_rows > 0) {
-                        // Afficher les données de chaque ligne
-                        while($row = $result->fetch_assoc()) {
-                            // Déterminer la classe CSS en fonction du type de capteur
-                            $sensorClass = '';
-                            if (strpos($row["nom_cap"], 'temp') !== false) {
-                                $sensorClass = 'sensor-temp';
-                            } elseif (strpos($row["nom_cap"], 'hum') !== false) {
-                                $sensorClass = 'sensor-humidity';
-                            } elseif (strpos($row["nom_cap"], 'press') !== false) {
-                                $sensorClass = 'sensor-pressure';
-                            }
-                            
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row["date_mesure"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["horaire_mesure"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["nom_cap"]) . "</td>";
-                            echo "<td class='" . $sensorClass . "'>" . htmlspecialchars($row["valeur_mesure"]) . 
-                                 (strpos($row["nom_cap"], 'temp') !== false ? " °C" : 
-                                  (strpos($row["nom_cap"], 'hum') !== false ? " %" : 
-                                  (strpos($row["nom_cap"], 'press') !== false ? " hPa" : ""))) . 
-                                 "</td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='4'>Aucune donnée disponible</td></tr>";
-                    }
-                    
-                    // Fermer la connexion
-                    $conn->close();
-                    ?>
-                </tbody>
-            </table>
 
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Capteur</th>
+                            <th>Valeur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Connexion à la base de données
+                        $servername = "localhost";
+                        $username = "guerin";
+                        $password = "passroot";
+                        $dbname = "sae23";
+                        
+                        // Création de la connexion
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+                        
+                        // Vérifier la connexion
+                        if ($conn->connect_error) {
+                            die("Échec de la connexion : " . $conn->connect_error);
+                        }
+                        
+                        // Requête SQL pour récupérer les 50 dernières mesures
+                        $sql = "SELECT date_mesure, horaire_mesure, nom_cap, valeur_mesure 
+                                FROM Mesure 
+                                ORDER BY date_mesure DESC, horaire_mesure DESC 
+                                LIMIT 50";
+                        $result = $conn->query($sql);
+                        
+                        // Vérifier s'il y a des résultats
+                        if ($result->num_rows > 0) {
+                            // Afficher les données de chaque ligne
+                            while($row = $result->fetch_assoc()) {
+                                // Déterminer la classe CSS en fonction du type de capteur
+                                $sensorClass = '';
+                                if (strpos($row["nom_cap"], 'temp') !== false) {
+                                    $sensorClass = 'sensor-temp';
+                                } elseif (strpos($row["nom_cap"], 'hum') !== false) {
+                                    $sensorClass = 'sensor-humidity';
+                                } elseif (strpos($row["nom_cap"], 'press') !== false) {
+                                    $sensorClass = 'sensor-pressure';
+                                }
+                                
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($row["date_mesure"]) . "</td>";
+                                echo "<td>" . htmlspecialchars($row["horaire_mesure"]) . "</td>";
+                                echo "<td>" . htmlspecialchars($row["nom_cap"]) . "</td>";
+                                echo "<td class='" . $sensorClass . "'>" . htmlspecialchars($row["valeur_mesure"]) . 
+                                    (strpos($row["nom_cap"], 'temp') !== false ? " °C" : 
+                                    (strpos($row["nom_cap"], 'hum') !== false ? " %" : 
+                                    (strpos($row["nom_cap"], 'press') !== false ? " hPa" : ""))) . 
+                                    "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='4'>Aucune donnée disponible</td></tr>";
+                        }
+                        
+                        // Fermer la connexion
+                        $conn->close();
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 
