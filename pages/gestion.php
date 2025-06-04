@@ -59,7 +59,7 @@ if (!isset($_SESSION['gest_connecte'])) {
                 <h2>🔐 Connexion à l\'espace administration</h2>
                 
                 <div class="admin-login">
-                    <h3>Connexion gestionnaire du bâtiment E.</h3
+                    <h3>Connexion gestionnaire du bâtiment E.</h3>
                     
                     '. (isset($error) ? '<p style="color: red;">'.$error.'</p>' : '') .'
                     
