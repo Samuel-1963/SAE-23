@@ -569,6 +569,198 @@ footer {
   }
 }
 
+/* === STYLES SPÉCIFIQUES POUR GESTION.PHP === */
+
+/* Styles pour le bouton de déconnexion */
+.logout {
+  background: #8b0000;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+  vertical-align: middle;
+}
+
+.logout:hover {
+  background: #b22222;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Styles pour les cartes de contenu */
+.card {
+  background: rgba(28, 28, 61, 0.8);
+  border: 2px solid #d4af37;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.card h2 {
+  color: #d4af37;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card h2::after {
+  content: "";
+  flex-grow: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #d4af37, transparent);
+  margin-left: 10px;
+}
+
+/* Styles pour le formulaire de recherche */
+.form-group {
+  margin: 15px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #d4af37;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 15px;
+  background: #1c1c3d;
+  border: 1px solid #d4af37;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  min-width: 200px;
+}
+
+.btn {
+  background: #d4af37;
+  color: #1c1c3d;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background: #ffcc00;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Styles pour le tableau des dernières mesures */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(28, 28, 61, 0.8);
+  margin: 20px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+th, td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+th {
+  background-color: #2a2a4f;
+  color: #d4af37;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+tr:hover {
+  background-color: rgba(42, 42, 79, 0.5);
+}
+
+/* Classes pour les types de capteurs */
+.sensor-tem { color: #ff6b6b; font-weight: bold; }
+.sensor-hum { color: #4ecdc4; font-weight: bold; }
+.sensor-lum { color: #f9c74f; font-weight: bold; }
+.sensor-co2 { color: #a9df85; font-weight: bold; }
+
+/* Styles pour les statistiques par salle */
+.card h3 {
+  color: #ffcc00;
+  margin: 15px 0 10px;
+  font-size: 1.2rem;
+  border-left: 3px solid #d4af37;
+  padding-left: 10px;
+}
+
+.card p {
+  margin: 8px 0;
+  padding-left: 10px;
+  color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Icônes pour les statistiques */
+.card p::before {
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .form-group label {
+    width: 100%;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+  
+  th, td {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .logout {
+    display: block;
+    margin: 10px 0 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-group input,
+  .form-group select {
+    width: 100%;
+  }
+  
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
 
 @media (max-width: 768px) {
   #menu-toggle {
