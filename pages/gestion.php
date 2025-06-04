@@ -14,15 +14,43 @@ if (!isset($_SESSION['gest_connecte'])) {
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Connexion</title>
-            <style>
-                body { font-family: Arial, sans-serif; background: #f0f0f0; }
-                .login-box { max-width: 300px; margin: 100px auto; background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-                input { width: 100%; padding: 8px; margin: 5px 0; }
-                button { width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-            </style>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="refresh" content="60">
+            <title>EnergyWatch - Connexion </title>
+            <link rel="stylesheet" href="../styles.css">
+            <link rel="icon" href="../images/icon.ico" type="image/x-icon">
         </head>
         <body>
+            <header>
+                <a href="../index.html" class="titre-accueil">
+                    <h1>EnergyWatch</h1>
+                </a>
+                <button id="menu-toggle" aria-label="Ouvrir le menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="administration.php">Administration</a></li>
+                        <li><a href="gestion.php">Gestion</a></li>
+                        <li><a href="consultation.php">Consultation</a></li>
+                        <li><a href="#">Gestion de Projet</a>
+                            <ul class="sous-menu">
+                                <li><a href="gantt.html">GANTT</a></li>
+                                <li><a href="syntheses.html">Synthèses personnelles</a></li>
+                                <li><a href="problemes.html">Problèmes / Solutions</a></li>
+                                <li><a href="conclusion.html">Conclusion</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+            <main>
+                <a href="../index.html" class="back-btn">← Retour</a>
+                <h1>Connexion</h1>
+                <p>Veuillez vous connecter pour accéder à la gestion du bâtiment E.</p>
             <div class="login-box">
                 <h2>Connexion</h2>
                 <form method="post">
@@ -31,6 +59,20 @@ if (!isset($_SESSION['gest_connecte'])) {
                     <button type="submit">Se connecter</button>
                 </form>
             </div>
+            </main>
+
+            <footer>
+                <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
+            </footer>
+
+            <script>
+                document.getElementById('menu-toggle').addEventListener('click', function () {
+                    const nav = document.getElementById('main-nav');
+                    nav.classList.toggle('active');
+                    this.querySelectorAll('span').forEach(span =>
+                        span.classList.toggle('active'));
+                });
+            </script>
         </body>
         </html>
         ');
@@ -61,10 +103,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Gestion Bâtiment E</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyWatch - Gestion</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../images/icon.ico" type="image/x-icon">
 </head>
 <body>
+    <header>
+        <a href="../index.html" class="titre-accueil">
+            <h1>EnergyWatch</h1>
+        </a>
+        <button id="menu-toggle" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="administration.php">Administration</a></li>
+                <li><a href="gestion.php">Gestion</a></li>
+                <li><a href="consultation.php">Consultation</a></li>
+                <li><a href="#">Gestion de Projet</a>
+                    <ul class="sous-menu">
+                        <li><a href="gantt.html">GANTT</a></li>
+                        <li><a href="syntheses.html">Synthèses personnelles</a></li>
+                        <li><a href="problemes.html">Problèmes / Solutions</a></li>
+                        <li><a href="conclusion.html">Conclusion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
+<main>
     <h1>Gestion Bâtiment E <a href="?logout=1" class="logout">Déconnexion</a></h1>
 
     <!-- Statistiques par salle -->
@@ -193,6 +264,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
         }
         ?>
     </table>
+    </main>
 
+    <footer>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+            this.querySelectorAll('span').forEach(span =>
+                span.classList.toggle('active'));
+        });
+    </script>
 </body>
 </html>

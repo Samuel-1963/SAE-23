@@ -13,11 +13,43 @@ $filtres = isset($_SESSION['filtres']) ? $_SESSION['filtres'] : array();
 
 <!DOCTYPE html>
 <html>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-    <title>Résultats</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="60">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyWatch - Résultats</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../images/icon.ico" type="image/x-icon">
 </head>
 <body>
-
+    <header>
+        <a href="../index.html" class="titre-accueil">
+            <h1>EnergyWatch</h1>
+        </a>
+        <button id="menu-toggle" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="administration.php">Administration</a></li>
+                <li><a href="gestion.php">Gestion</a></li>
+                <li><a href="consultation.php">Consultation</a></li>
+                <li><a href="#">Gestion de Projet</a>
+                    <ul class="sous-menu">
+                        <li><a href="gantt.html">GANTT</a></li>
+                        <li><a href="syntheses.html">Synthèses personnelles</a></li>
+                        <li><a href="problemes.html">Problèmes / Solutions</a></li>
+                        <li><a href="conclusion.html">Conclusion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+<main>
     <a href="gestion.php" class="back-btn">← Retour</a>
     <h1>Résultats de recherche</h1>
     
@@ -78,6 +110,19 @@ $filtres = isset($_SESSION['filtres']) ? $_SESSION['filtres'] : array();
         echo "<p>Aucun résultat trouvé avec ces filtres</p>";
     }
     ?>
+</main>
 
+    <footer>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+            this.querySelectorAll('span').forEach(span =>
+                span.classList.toggle('active'));
+        });
+    </script>
 </body>
 </html>
