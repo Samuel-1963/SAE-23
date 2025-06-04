@@ -3,7 +3,7 @@ session_start();
 
 // Authentification directe
 if (!isset($_SESSION['gest_connecte'])) {
-    if ($_POST['login'] ?? '' === 'Gerant' && $_POST['password'] ?? '' === 'hgvcJB564F*') {
+    if (($_POST['login'] ?? '') === 'Gerant' && ($_POST['password'] ?? '') === 'hgvcJB564F*') {
         $_SESSION['gest_connecte'] = true;
     } else {
         // Formulaire de connexion intégré
