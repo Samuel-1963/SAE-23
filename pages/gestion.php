@@ -177,6 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
                 if (is_numeric($salle['avg_co2'])) {
                     echo "<p>☁️ CO2: Moy=" . round($salle['avg_co2'], 1) . " ppm</p>";
                 }
+                echo "</br>";
             }
         } else {
             echo "<p>Aucune donnée statistique disponible.</p>";
