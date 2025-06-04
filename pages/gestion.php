@@ -16,66 +16,85 @@ if (!isset($_SESSION['gest_connecte'])) {
     if ($login === 'Gerant' && $password === 'hgvcJB564F*') {
         $_SESSION['gest_connecte'] = true;
     } else {
-        // Formulaire de connexion intégré
-        die('
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="refresh" content="60">
-            <title>EnergyWatch - Connexion </title>
-            <link rel="stylesheet" href="../styles.css">
-            <link rel="icon" href="../images/icon.ico" type="image/x-icon">
-        </head>
-        <body>
-            <header>
-                <a href="../index.html" class="titre-accueil">
-                    <h1>EnergyWatch</h1>
-                </a>
-                <button id="menu-toggle" aria-label="Ouvrir le menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <nav id="main-nav">
-                    <ul>
-                        <li><a href="administration.php">Administration</a></li>
-                        <li><a href="gestion.php">Gestion</a></li>
-                        <li><a href="consultation.php">Consultation</a></li>
-                        <li><a href="#">Gestion de Projet</a>
-                            <ul class="sous-menu">
-                                <li><a href="gantt.html">GANTT</a></li>
-                                <li><a href="syntheses.html">Synthèses personnelles</a></li>
-                                <li><a href="problemes.html">Problèmes / Solutions</a></li>
-                                <li><a href="conclusion.html">Conclusion</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
-            <main>
-                <div class="admin-login">
-                    <a href="../index.html" class="back-btn">← Retour</a>
-                    <h1>Connexion</h1>
-                    <p>Veuillez vous connecter pour accéder à la gestion du bâtiment E.</p>
-                </div>
-            <div class="login-box">
-                <h2>Connexion</h2>
-                <form method="post">
-                    <input type="text" name="login" placeholder="Login" required>
-                    <input type="password" name="password" placeholder="Mot de passe" required>
-                    <button type="submit">Se connecter</button>
-                </form>
-            </div>
-            </main>
+    // Formulaire de connexion intégré
+    die('
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EnergyWatch - Connexion</title>
+        <link rel="stylesheet" href="../styles.css">
+        <link rel="icon" href="../images/icon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <header>
+            <a href="../index.html" class="titre-accueil">
+                <h1>EnergyWatch</h1>
+            </a>
+            <button id="menu-toggle" aria-label="Ouvrir le menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="administration.php">Administration</a></li>
+                    <li><a href="gestion.php">Gestion</a></li>
+                    <li><a href="consultation.php">Consultation</a></li>
+                    <li><a href="#">Gestion de Projet</a>
+                        <ul class="sous-menu">
+                            <li><a href="gantt.html">GANTT</a></li>
+                            <li><a href="syntheses.html">Synthèses personnelles</a></li>
+                            <li><a href="problemes.html">Problèmes / Solutions</a></li>
+                            <li><a href="conclusion.html">Conclusion</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
 
-            <footer>
-                <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
-            </footer>
-        </body>
-        </html>
-        ');
+        <main>
+            <section id="admin">
+                <h2>🔐 Connexion à l\'espace administration</h2>
+                
+                <div class="admin-login" style="max-width: 500px; margin: 0 auto;">
+                    <p>Veuillez vous connecter pour accéder à la gestion du bâtiment E.</p>
+                    
+                    '. (isset($error) ? '<p style="color: red; margin-bottom: 20px;">'.$error.'</p>' : '') .'
+                    
+                    <form method="post">
+                        <label for="login">Identifiant :</label>
+                        <input type="text" name="login" id="login" required>
+                        
+                        <label for="password">Mot de passe :</label>
+                        <input type="password" name="password" id="password" required>
+                        
+                        <button type="submit" style="margin-top: 20px;">Se connecter</button>
+                    </form>
+                    
+                    <p style="margin-top: 20px; text-align: center;">
+                        <a href="../index.html">← Retour à l\'accueil</a>
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
+        </footer>
+
+        <script>
+            document.getElementById(\'menu-toggle\').addEventListener(\'click\', function () {
+                const nav = document.getElementById(\'main-nav\');
+                nav.classList.toggle(\'active\');
+                this.querySelectorAll(\'span\').forEach(span =>
+                    span.classList.toggle(\'active\'));
+            });
+        </script>
+    </body>
+    </html>
+    ');
     }
 }
 
