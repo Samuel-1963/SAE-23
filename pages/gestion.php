@@ -58,10 +58,10 @@ if (!isset($_SESSION['gest_connecte'])) {
             <section id="admin">
                 <h2>🔐 Connexion à l\'espace administration</h2>
                 
-                <div class="admin-login" style="max-width: 500px; margin: 0 auto;">
+                <div class="admin-login">
                     <p>Veuillez vous connecter pour accéder à la gestion du bâtiment E.</p>
                     
-                    '. (isset($error) ? '<p style="color: red; margin-bottom: 20px;">'.$error.'</p>' : '') .'
+                    '. (isset($error) ? '<p style="color: red;">'.$error.'</p>' : '') .'
                     
                     <form method="post">
                         <label for="login">Identifiant :</label>
@@ -70,10 +70,10 @@ if (!isset($_SESSION['gest_connecte'])) {
                         <label for="password">Mot de passe :</label>
                         <input type="password" name="password" id="password" required>
                         
-                        <button type="submit" style="margin-top: 20px;">Se connecter</button>
+                        <button type="submit">Se connecter</button>
                     </form>
                     
-                    <p style="margin-top: 20px; text-align: center;">
+                    <p>
                         <a href="../index.html">← Retour à l\'accueil</a>
                     </p>
                 </div>
