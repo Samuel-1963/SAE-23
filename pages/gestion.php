@@ -51,7 +51,7 @@ if (isset($_GET['logout'])) {
             <ul>
                 <li><a href="administration.php">Administration</a></li>
                 <li><a href="gestion.php">Gestion</a></li>
-                <li><a href="consultation.html">Consultation</a></li>
+                <li><a href="consultation.php">Consultation</a></li>
                 <li><a href="#">Gestion de Projet</a>
                     <ul class="sous-menu">
                         <li><a href="gantt.html">GANTT</a></li>
