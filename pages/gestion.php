@@ -156,8 +156,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
         
         if ($stats && $stats->num_rows > 0) {
             while ($salle = $stats->fetch_assoc()) {
+                // Display the room name
                 echo "<h3>Salle " . htmlspecialchars($salle['salle']) . "</h3>";
 
+                // Display average temperature (and min/max if available)
                 if (is_numeric($salle['avg_temp'])) {
                     echo "<p>🌡️ Température: Moy=" . round($salle['avg_temp'], 1) . "°C";
                     if (is_numeric($salle['min_temp']) && is_numeric($salle['max_temp'])) {
@@ -166,20 +168,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
                     echo "</p>";
                 }
 
+                // Display average humidity if available
                 if (is_numeric($salle['avg_hum'])) {
                     echo "<p>💧 Humidité: Moy=" . round($salle['avg_hum'], 1) . "%</p>";
                 }
 
+                // Display average light level if available
                 if (is_numeric($salle['avg_lum'])) {
                     echo "<p>💡 Lumière: Moy=" . round($salle['avg_lum'], 1) . " lux</p>";
                 }
 
+                // Display average CO2 level if available
                 if (is_numeric($salle['avg_co2'])) {
                     echo "<p>☁️ CO2: Moy=" . round($salle['avg_co2'], 1) . " ppm</p>";
                 }
-                echo "</br>";
+
+                // Add a line break between rooms
+                echo "<br>";
             }
         } else {
+            // Display a message if there is no statistical data
             echo "<p>Aucune donnée statistique disponible.</p>";
         }
         ?>
