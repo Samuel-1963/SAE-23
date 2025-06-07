@@ -217,48 +217,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <div class="card">
-        <h2>🔧 Gestion des Capteurs</h2>
-        <?php if (isset($message_capteur)) echo "<p>$message_capteur</p>"; ?>
-
+        <h2>➕ Ajouter un Capteur</h2>
+        <?php if (!empty($message_capteur) && isset($_POST['ajouter_capteur'])) echo "<p>$message_capteur</p>"; ?>
         <form method="post">
-            <!-- Nom du capteur -->
-            <input type="text" name="nom_cap" placeholder="Nom du capteur (ex: E101_luminosite)" required>
+            <label>Nom du capteur :
+                <input type="text" name="nom_cap" placeholder="Ex: E101_temperature" required>
+            </label><br>
 
-            <!-- Type du capteur -->
-            <select name="type_cap" required>
-                <option value="" disabled selected>Type du capteur</option>
-                <option value="Humidité">Humidité</option>
-                <option value="Luminosité">Luminosité</option>
-                <option value="CO2">CO2</option>
-                <option value="Température">Température</option>
-            </select>
+            <label>Type :
+                <select name="type_cap" required>
+                    <option value="">-- Sélectionner --</option>
+                    <option value="Humidité">Humidité</option>
+                    <option value="Luminosité">Luminosité</option>
+                    <option value="CO2">CO2</option>
+                    <option value="Température">Température</option>
+                </select>
+            </label><br>
 
-            <!-- Unité du capteur -->
-            <select name="unite_cap" required>
-                <option value="" disabled selected>Unité</option>
-                <option value="%">%</option>
-                <option value="°C">°C</option>
-                <option value="ppm">ppm</option>
-                <option value="lux">lux</option>
-            </select>
+            <label>Unité :
+                <select name="unite_cap" required>
+                    <option value="">-- Sélectionner --</option>
+                    <option value="%">%</option>
+                    <option value="°C">°C</option>
+                    <option value="ppm">ppm</option>
+                    <option value="lux">lux</option>
+                </select>
+            </label><br>
 
-            <!-- Salle du capteur -->
-            <select name="nom_salle" required>
-                <option value="" disabled selected>Salle</option>
-                <option value="E101">E101</option>
-                <option value="E102">E102</option>
-                <option value="E207">E207</option>
-                <option value="E208">E208</option>
-            </select>
+            <label>Salle :
+                <select name="nom_salle" required>
+                    <option value="">-- Sélectionner --</option>
+                    <option value="E101">E101</option>
+                    <option value="E102">E102</option>
+                    <option value="E207">E207</option>
+                    <option value="E208">E208</option>
+                </select>
+            </label><br>
 
-            <br><br>
-            <!-- Boutons -->
-            <button name="ajouter_capteur" type="submit">➕ Ajouter</button>
-            <button name="supprimer_capteur" type="submit">➖ Supprimer</button>
+            <button type="submit" name="ajouter_capteur">Ajouter le capteur</button>
         </form>
     </div>
 
-
+    <div class="card">
+        <h2>➖ Supprimer un Capteur</h2>
+        <?php if (!empty($message_capteur) && isset($_POST['supprimer_capteur'])) echo "<p>$message_capteur</p>"; ?>
+        <form method="post">
+            <label>Nom du capteur :
+                <input type="text" name="nom_cap" placeholder="Ex: E101_temperature" required>
+            </label><br>
+            <button type="submit" name="supprimer_capteur">Supprimer</button>
+        </form>
+    </div>
 
     <div class="card">
         <h2>📋 Liste des salles existantes</h2>
