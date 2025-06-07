@@ -26,26 +26,45 @@ while true; do
 	echo ""
     echo "=== Récupération de données ==="
 
-    # Salles et leurs capteurs : temperature, humidite, luminosite, co2
+    # Salle E101
     TEMP_E101=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage1/E101/temperature" -C 1 | jq -r '.value')
+    echo "Température E101 récupérée: $TEMP_E101"
     HUM_E101=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage1/E101/humidite" -C 1 | jq -r '.value')
+    echo "Humidité E101 récupérée: $HUM_E101"
     LUM_E101=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage1/E101/luminosite" -C 1 | jq -r '.value')
+    echo "Luminosité E101 récupérée: $LUM_E101"
     CO2_E101=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage1/E101/co2" -C 1 | jq -r '.value')
+    echo "CO2 E101 récupéré: $CO2_E101"
 
+    # Salle E102
     TEMP_E102=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage1/E102/temperature" -C 1 | jq -r '.value')
+    echo "Température E102 récupérée: $TEMP_E102"
     HUM_E102=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage1/E102/humidite" -C 1 | jq -r '.value')
+    echo "Humidité E102 récupérée: $HUM_E102"
     LUM_E102=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage1/E102/luminosite" -C 1 | jq -r '.value')
+    echo "Luminosité E102 récupérée: $LUM_E102"
     CO2_E102=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage1/E102/co2" -C 1 | jq -r '.value')
+    echo "CO2 E102 récupéré: $CO2_E102"
 
+    # Salle E207
     TEMP_E207=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage2/E207/temperature" -C 1 | jq -r '.value')
+    echo "Température E207 récupérée: $TEMP_E207"
     HUM_E207=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage2/E207/humidite" -C 1 | jq -r '.value')
+    echo "Humidité E207 récupérée: $HUM_E207"
     LUM_E207=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage2/E207/luminosite" -C 1 | jq -r '.value')
+    echo "Luminosité E207 récupérée: $LUM_E207"
     CO2_E207=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage2/E207/co2" -C 1 | jq -r '.value')
+    echo "CO2 E207 récupéré: $CO2_E207"
 
+    # Salle E208
     TEMP_E208=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage2/E208/temperature" -C 1 | jq -r '.value')
+    echo "Température E208 récupérée: $TEMP_E208"
     HUM_E208=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage2/E208/humidite" -C 1 | jq -r '.value')
+    echo "Humidité E208 récupérée: $HUM_E208"
     LUM_E208=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage2/E208/luminosite" -C 1 | jq -r '.value')
+    echo "Luminosité E208 récupérée: $LUM_E208"
     CO2_E208=$(mosquitto_sub -h "$BROKER_HOST" -u "$USERNAME" -P "$PASSWORD" -t "iut/bate/etage2/E208/co2" -C 1 | jq -r '.value')
+    echo "CO2 E208 récupéré: $CO2_E208"
 
     echo ""
 
@@ -73,6 +92,7 @@ while true; do
     echo "=== Cycle terminé, pause 120s ==="
     echo ""
     sleep 120
+
 done
 
 
