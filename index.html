@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Page metadata and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnergyWatch - Accueil</title>
@@ -9,16 +10,19 @@
 </head>
 <body>
     <header>
+        <!-- Site title with homepage link -->
         <a href="index.html" class="titre-accueil">
             <h1>EnergyWatch</h1>
         </a>        
 
+        <!-- Mobile menu toggle button -->
         <button id="menu-toggle" aria-label="Ouvrir le menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
 
+        <!-- Main navigation menu -->
         <nav id="main-nav">
             <ul>
                 <li><a href="pages/administration.php">Administration</a></li>
@@ -37,7 +41,7 @@
     </header>
 
     <main>
-        <!-- Section d'Accueil -->
+        <!-- Home Section -->
         <section id="accueil">
             <div class="accueil-conteneur">
                 <h2>Bienvenue sur la plateforme de gestion des bâtiments de l'IUT</h2>
@@ -50,7 +54,7 @@
             </ul>
         </section>
 
-        <!-- Section Bâtiments -->
+        <!-- Managed Building Section -->
         <section id="batiments">
             <h2>Bâtiment géré</h2>
             <p>Actuellement, un seul bâtiment est pris en charge :</p>
@@ -59,7 +63,7 @@
             </ul>
         </section>
 
-        <!-- Section Salles équipées -->
+        <!-- Equipped Rooms Section -->
         <section id="salles">
             <h2>Salles équipées</h2>
             <p>Voici les salles surveillées ainsi que leurs équipements :</p>
@@ -80,28 +84,28 @@
                             <td>E</td>
                             <td>Salle de TP</td>
                             <td>15</td>
-                            <td>Température, Humidité</td>
+                            <td>Température, Humidité, Luminosité, CO2</td>
                         </tr>
                         <tr>
                             <td>E102</td>
                             <td>E</td>
                             <td>Salle de TP</td>
                             <td>15</td>
-                            <td>Humidité, Luminosité</td>
+                            <td>Température, Humidité, Luminosité, CO2</td>
                         </tr>
                         <tr>
                             <td>E207</td>
                             <td>E</td>
                             <td>Salle de TP</td>
                             <td>15</td>
-                            <td>Luminosité, CO2</td>
+                            <td>Température, Humidité, Luminosité, CO2</td>
                         </tr>
                         <tr>
                             <td>E208</td>
                             <td>E</td>
                             <td>Salle de TP</td>
                             <td>15</td>
-                            <td>Température, CO2</td>
+                            <td>Température, Humidité, Luminosité, CO2</td>
                         </tr>
                     </tbody>
                 </table>
@@ -110,16 +114,17 @@
     </main>
 
     <footer>
+        <!-- Footer with legal notice link -->
         <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="pages/mentions-legales.html">Mentions légales</a></p>
     </footer>
 
     <script>
-        // Gestion du menu mobile
+        // Mobile menu interaction
         document.getElementById('menu-toggle').addEventListener('click', function() {
             const nav = document.getElementById('main-nav');
             nav.classList.toggle('active');
             
-            // Animation des icônes
+            // Animate icon bars
             this.querySelectorAll('span').forEach(span => 
                 span.classList.toggle('active'));
         });

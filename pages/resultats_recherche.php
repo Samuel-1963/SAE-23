@@ -92,7 +92,7 @@ if ($result && $result->num_rows > 0) {
         $unite = '';
         $sensorClass = '';
         
-        // Déterminer la classe CSS et l'unité en fonction du type de capteur
+        // Determine CSS class and unit
         if (strpos($row['nom_cap'], 'temperature') !== false) {
             $sensorClass = 'sensor-temp';
             $unite = '°C';

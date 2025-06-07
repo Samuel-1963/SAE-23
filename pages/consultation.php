@@ -54,7 +54,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        // Connexion à la base de données
+                        // Creating the connection
                         $servername = "localhost";
                         $username = "guerin";
                         $password = "passroot";
@@ -63,23 +63,22 @@
                         // Création de la connexion
                         $conn = new mysqli($servername, $username, $password, $dbname);
                         
-                        // Vérifier la connexion
+                        // Check connection
                         if ($conn->connect_error) {
                             die("Échec de la connexion : " . $conn->connect_error);
                         }
                         
-                        // Requête SQL pour récupérer les 50 dernières mesures
+                        // SQL query to retrieve the last 50 measurements
                         $sql = "SELECT date_mesure, horaire_mesure, nom_cap, valeur_mesure 
                                 FROM Mesure 
-                                ORDER BY date_mesure DESC, horaire_mesure DESC 
-                                LIMIT 50";
+                                ORDER BY date_mesure DESC, horaire_mesure DESC ";
                         $result = $conn->query($sql);
                         
-                        // Vérifier s'il y a des résultats
+                        // Check if there are any results
                         if ($result->num_rows > 0) {
-                            // Afficher les données de chaque ligne
+                            // Display data for each row
                             while($row = $result->fetch_assoc()) {
-                                // Déterminer la classe CSS en fonction du type de capteur
+                                // Determine CSS class based on sensor type
                                 $sensorClass = '';
                                 if (strpos($row["nom_cap"], 'temp') !== false) {
                                     $sensorClass = 'sensor-temp';
@@ -104,7 +103,7 @@
                             echo "<tr><td colspan='4'>Aucune donnée disponible</td></tr>";
                         }
                         
-                        // Fermer la connexion
+                        // Close connection
                         $conn->close();
                         ?>
                     </tbody>

@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-// Déconnexion
+// Disconnect
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: administration.php');
     exit();
 }
 
-// Authentification
+// Authentication
 if (!isset($_SESSION['admin_connecte'])) {
 $login = isset($_POST['login']) ? $_POST['login'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
@@ -18,7 +18,7 @@ $password = isset($_POST['password']) ? $_POST['password'] : '';
     if ($login === 'Administrateur' && $password === 'h023BGRsfv5$') {
         $_SESSION['admin_connecte'] = true;
     } else {
-        // Formulaire de connexion (copié de gestion.php)
+        // Login form
         die('
         <!DOCTYPE html>
         <html lang="fr">
@@ -98,15 +98,15 @@ $password = isset($_POST['password']) ? $_POST['password'] : '';
     }
 }
 
-// Connexion BDD
+// BDD connection
 $conn = new mysqli('localhost', 'guerin', 'passroot', 'sae23');
 if ($conn->connect_error) die("Connexion échouée : " . $conn->connect_error);
 
-// Variables messages
+// Message variables
 $message_salle = '';
 $message_capteur = '';
 
-// Traitement des formulaires
+// Form processing
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['ajouter_capteur'])) {
         // Escape user input

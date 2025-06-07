@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-// Gestion de la déconnexion
+// Disconnect
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: gestion.php');
     exit();
 }
 
-// Authentification directe
+// Authentication
 if (!isset($_SESSION['gest_connecte'])) {
     $login = isset($_POST['login']) ? $_POST['login'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
@@ -16,7 +16,7 @@ if (!isset($_SESSION['gest_connecte'])) {
     if ($login === 'Gerant' && $password === 'hgvcJB564F*') {
         $_SESSION['gest_connecte'] = true;
     } else {
-    // Formulaire de connexion intégré
+    // Login form
     die('
     <!DOCTYPE html>
     <html lang="fr">
@@ -98,11 +98,11 @@ if (!isset($_SESSION['gest_connecte'])) {
     }
 }
 
-// Connexion BDD
+//  BDD connection
 $conn = new mysqli('localhost', 'guerin', 'passroot', 'sae23');
 if ($conn->connect_error) die("Connexion échouée : " . $conn->connect_error);
 
-// Traitement du formulaire de recherche
+// Processing the search form
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
     $filtres = array(
         'salle' => $conn->real_escape_string(isset($_POST['salle']) ? $_POST['salle'] : ''),
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
         'date_fin' => $conn->real_escape_string(isset($_POST['date_fin']) ? $_POST['date_fin'] : '')
     );
     
-    // Stockage pour réutilisation
+    // Storage for reuse
     $_SESSION['filtres'] = $filtres;
     header("Location: resultats_recherche.php");
     exit();
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
             <h1>Gestion Bâtiment E <a href="gestion.php?logout=1" class="logout">Déconnexion</a>
         </div>
 
-        <!-- Statistiques par salle -->
+        <!-- Statistics by room -->
         <div class="card">
             <h2>📊 Statistiques Globales</h2>
             <?php
@@ -217,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
             ?>
         </div>
 
-        <!-- Formulaire de recherche -->
+        <!-- Search form -->
         <div class="card">
             <h2>🔍 Recherche Avancée</h2>
             <form method="post">
@@ -260,7 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
             </form>
         </div>
 
-        <!-- Dernières mesures -->
+        <!-- 20 Latest measurements -->
         <h2>📝 Dernières Mesures</h2>
         <div class="table-container">
             <table>
@@ -293,7 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
                             $classe = 'sensor-' . substr($type, 0, 3);
                             $unite = '';
                             
-                            // Déterminer la classe CSS et l'unité comme dans le premier exemple
+                            // Determine CSS class and unit
                             if (strpos($m['nom_cap'], 'temperature') !== false) {
                                 $classe = 'sensor-temp';
                                 $unite = '°C';

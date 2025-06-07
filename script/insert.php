@@ -1,16 +1,16 @@
 <?php
-$servername = "localhost";  // ou l'adresse de ton serveur SQL
+$servername = "localhost";
 $username = "guerin";
 $password = "passroot";
 $dbname = "sae23";
 
-// Connexion à la base
+// BDD connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Récupére les données POST
+// Retrieves POST data
 $nom_cap = isset($_POST['nom_cap']) ? $_POST['nom_cap'] : null;
 $valeur_mesure = isset($_POST['valeur_mesure']) ? $_POST['valeur_mesure'] : null;
 
@@ -20,7 +20,7 @@ if ($nom_cap === null || $valeur_mesure === null) {
     exit;
 }
 
-// Requête
+// Request
 $stmt = $conn->prepare("INSERT INTO Mesure (date_mesure, horaire_mesure, valeur_mesure, nom_cap) VALUES (CURDATE(), CURTIME(), ?, ?)");
 $stmt->bind_param("is", $valeur_mesure, $nom_cap);
 
