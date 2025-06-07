@@ -409,7 +409,7 @@ strong {
 
 .stat-label {
   font-size: 1rem;
-  color: #cccccc;
+  color: rgba(42, 42, 79, 0.8);
   margin-top: 5px;
 }
 
@@ -501,7 +501,7 @@ strong {
 
 .stat-label {
   font-size: 1rem;
-  color: #cccccc;
+  color: rgba(42, 42, 79, 0.8);
   margin-top: 5px;
 }
 
