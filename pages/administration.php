@@ -10,8 +10,8 @@ if (isset($_GET['logout'])) {
 
 // Authentification
 if (!isset($_SESSION['admin_connecte'])) {
-    $login = isset($_POST['login']) ? $_POST['login'] : '';
-    $password = isset($_POST['password']) ? $_POST['password'] : '';
+$login = isset($_POST['login']) ? $_POST['login'] : '';
+$password = isset($_POST['password']) ? $_POST['password'] : '';
 
 
     if ($login === 'Administrateur' && $password === 'admih023BGRsfv5$n123') {
