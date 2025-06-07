@@ -71,7 +71,7 @@
                                 FROM Mesure m
                                 JOIN Capteur c ON m.nom_cap = c.nom_cap
                                 ORDER BY m.date_mesure DESC, m.horaire_mesure DESC
-                                LIMIT 50";
+                                LIMIT 500";
 
                         $result = $conn->query($sql);
 
