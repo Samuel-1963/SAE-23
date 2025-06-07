@@ -127,38 +127,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Ajout d'un capteur
+    // Adding a new sensor
     if (isset($_POST['ajouter_capteur'])) {
-        $nom_cap = mysql_real_escape_string($_POST['nom_cap']);
+        // Escape user input
+        $nom_cap = $conn->real_escape_string($_POST['nom_cap']);
         $type_cap = $_POST['type_cap'];
         $unite_cap = $_POST['unite_cap'];
         $nom_salle = $_POST['nom_salle'];
 
-        // Listes de choix valides
-        $types_valides = array("Humidité", "Luminosité", "CO2", "Température");
-        $unites_valides = array("%", "°C", "ppm", "lux");
-        $salles_valides = array("E101", "E102", "E207", "E208");
+        // Valid values for dropdowns
+        $valid_types = ["Humidité", "Luminosité", "CO2", "Température"];
+        $valid_units = ["%", "°C", "ppm", "lux"];
+        $valid_rooms = ["E101", "E102", "E207", "E208"];
 
-        // Vérification des champs
-        if (!empty($nom_cap) && in_array($type_cap, $types_valides) && in_array($unite_cap, $unites_valides) && in_array($nom_salle, $salles_valides)) {
-            $sql = "INSERT INTO sae23.Capteur (nom_cap, type_cap, unite_cap, nom_salle)
-                    VALUES ('$nom_cap', '$type_cap', '$unite_cap', '$nom_salle')";
-            $result = mysql_query($sql);
+        // Validate inputs
+        if (!empty($nom_cap) && in_array($type_cap, $valid_types) && in_array($unite_cap, $valid_units) && in_array($nom_salle, $valid_rooms)) {
+            // Use prepared statement to avoid SQL injection
+            $stmt = $conn->prepare("INSERT INTO sae23.Capteur (nom_cap, type_cap, unite_cap, nom_salle) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $nom_cap, $type_cap, $unite_cap, $nom_salle);
+            $result = $stmt->execute();
 
-            $message_capteur = $result ? "✅ Capteur '$nom_cap' ajouté avec succès." : "❌ Erreur lors de l'ajout du capteur.";
+            // Feedback message
+            $message_capteur = $result ? "✅ Sensor '$nom_cap' successfully added." : "❌ Error while adding the sensor.";
+            $stmt->close();
         } else {
-            $message_capteur = "❌ Données invalides. Vérifie les sélections.";
+            $message_capteur = "❌ Invalid data. Please check your selections.";
         }
     }
 
-
-    // Suppression d'un capteur
+    // Deleting a sensor
     if (isset($_POST['supprimer_capteur'])) {
-        $capteur = $conn->real_escape_string($_POST['capteur']);
-        if (!empty($capteur)) {
-            $conn->query("DELETE FROM Mesure WHERE nom_cap = '$capteur'");
-            $result = $conn->query("DELETE FROM Capteur WHERE nom_cap = '$capteur'");
-            $message_capteur = $result ? "✅ Capteur '$capteur' supprimé." : "❌ Capteur non trouvé ou erreur.";
+        $nom_cap = $conn->real_escape_string($_POST['nom_cap']);
+
+        if (!empty($nom_cap)) {
+            // Delete measurements first due to foreign key constraints
+            $conn->query("DELETE FROM Mesure WHERE nom_cap = '$nom_cap'");
+
+            // Then delete the sensor
+            $result = $conn->query("DELETE FROM sae23.Capteur WHERE nom_cap = '$nom_cap'");
+
+            // Feedback message
+            $message_capteur = $result ? "✅ Sensor '$nom_cap' deleted." : "❌ Sensor not found or deletion failed.";
+        } else {
+            $message_capteur = "❌ Sensor name cannot be empty.";
         }
     }
 }
