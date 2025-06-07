@@ -127,7 +127,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Adding a new sensor
     if (isset($_POST['ajouter_capteur'])) {
         // Escape user input
         $nom_cap = $conn->real_escape_string($_POST['nom_cap']);
@@ -142,14 +141,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Validate inputs
         if (!empty($nom_cap) && in_array($type_cap, $valid_types) && in_array($unite_cap, $valid_units) && in_array($nom_salle, $valid_rooms)) {
-            // Use prepared statement to avoid SQL injection
+            // Prepare statement
             $stmt = $conn->prepare("INSERT INTO sae23.Capteur (nom_cap, type_cap, unite_cap, nom_salle) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $nom_cap, $type_cap, $unite_cap, $nom_salle);
-            $result = $stmt->execute();
-
-            // Feedback message
-            $message_capteur = $result ? "✅ Sensor '$nom_cap' successfully added." : "❌ Error while adding the sensor.";
-            $stmt->close();
+            if ($stmt === false) {
+                // Preparation failed, show error
+                $message_capteur = "❌ Prepare failed: (" . $conn->errno . ") " . $conn->error;
+            } else {
+                // Bind parameters and execute
+                $stmt->bind_param("ssss", $nom_cap, $type_cap, $unite_cap, $nom_salle);
+                if ($stmt->execute()) {
+                    $message_capteur = "✅ Sensor '$nom_cap' successfully added.";
+                } else {
+                    $message_capteur = "❌ Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                }
+                $stmt->close();
+            }
         } else {
             $message_capteur = "❌ Invalid data. Please check your selections.";
         }
