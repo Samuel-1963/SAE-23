@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bashAdd commentMore actions
 
 BROKER_HOST="iot.iut-blagnac.fr"
 USERNAME="student"
