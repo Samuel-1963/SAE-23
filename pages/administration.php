@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Valid values for dropdowns
         $valid_types = ["Humidité", "Luminosité", "CO2", "Température"];
         $valid_units = ["%", "°C", "ppm", "lux"];
-        $valid_rooms = ["E101", "E102", "E207", "E208"];
+        $valid_rooms = ["101", "102", "207", "208"];
 
         // Validate inputs
         if (!empty($nom_cap) && in_array($type_cap, $valid_types) && in_array($unite_cap, $valid_units) && in_array($nom_salle, $valid_rooms)) {
