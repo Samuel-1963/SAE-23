@@ -80,13 +80,13 @@
                                 // Classe CSS selon le type de capteur
                                 $sensorClass = '';
                                 if (stripos($row["nom_cap"], 'temp') !== false) {
-                                    $sensorClass = 'sensor-temp';
+                                    $sensorClass = 'sensor-tem';
                                     $unit = "°C";
                                 } elseif (stripos($row["nom_cap"], 'hum') !== false) {
-                                    $sensorClass = 'sensor-humidity';
+                                    $sensorClass = 'sensor-hum';
                                     $unit = "%";
                                 } elseif (stripos($row["nom_cap"], 'lum') !== false) {
-                                    $sensorClass = 'sensor-light';
+                                    $sensorClass = 'sensor-lum';
                                     $unit = "lux";
                                 } elseif (stripos($row["nom_cap"], 'co2') !== false) {
                                     $sensorClass = 'sensor-co2';

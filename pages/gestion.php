@@ -295,13 +295,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
                             
                             // Determine CSS class and unit
                             if (strpos($m['nom_cap'], 'temperature') !== false) {
-                                $classe = 'sensor-temp';
+                                $classe = 'sensor-tem';
                                 $unite = '°C';
                             } elseif (strpos($m['nom_cap'], 'humidite') !== false) {
-                                $classe = 'sensor-humidity';
+                                $classe = 'sensor-hum';
                                 $unite = '%';
                             } elseif (strpos($m['nom_cap'], 'luminosite') !== false) {
-                                $classe = 'sensor-light';
+                                $classe = 'sensor-lum';
                                 $unite = 'lux';
                             } elseif (strpos($m['nom_cap'], 'co2') !== false) {
                                 $classe = 'sensor-co2';
