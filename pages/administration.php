@@ -1,24 +1,82 @@
 <?php
 session_start();
 
-// Connexion simple (à sécuriser plus tard)
-$login_correct = "admin";
-$password_correct = "admin123";
-
-// Traitement de la connexion
-if (isset($_POST['login']) && isset($_POST['password'])) {
-    if ($_POST['login'] === $login_correct && $_POST['password'] === $password_correct) {
-        $_SESSION['admin'] = true;
-    } else {
-        $error = "Identifiants incorrects.";
-    }
-}
-
 // Déconnexion
 if (isset($_GET['logout'])) {
     session_destroy();
-    header("Location: administration.php");
+    header('Location: administration.php');
     exit();
+}
+
+// Authentification
+if (!isset($_SESSION['admin_connecte'])) {
+    $login = $_POST['login'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    if ($login === 'Admin' && $password === 'admin123') {
+        $_SESSION['admin_connecte'] = true;
+    } else {
+        // Formulaire de connexion
+        die('
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <title>Connexion Administration</title>
+            <link rel="stylesheet" href="../styles.css">
+        </head>
+        <body>
+            <header>
+                <a href="../index.html" class="titre-accueil"><h1>EnergyWatch</h1></a>
+            </header>
+            <main>
+                <section id="admin">
+                    <h2>🔐 Connexion Administrateur</h2>
+                    <form method="post">
+                        <label for="login">Identifiant :</label>
+                        <input type="text" name="login" required>
+                        <label for="password">Mot de passe :</label>
+                        <input type="password" name="password" required>
+                        <button type="submit">Connexion</button>
+                    </form>
+                </section>
+            </main>
+            <footer>
+                <p>&copy; 2025 EnergyWatch - Tous droits réservés</p>
+            </footer>
+        </body>
+        </html>');
+    }
+}
+
+// Connexion BDD
+$conn = new mysqli('localhost', 'guerin', 'passroot', 'sae23');
+if ($conn->connect_error) die("Erreur connexion BDD: " . $conn->connect_error);
+
+// Traitement formulaire
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['add_salle']) && !empty($_POST['salle'])) {
+        $salle = $conn->real_escape_string($_POST['salle']);
+        $conn->query("INSERT INTO Salle (nom_salle) VALUES ('$salle')");
+    }
+
+    if (isset($_POST['del_salle']) && !empty($_POST['salle'])) {
+        $salle = $conn->real_escape_string($_POST['salle']);
+        $conn->query("DELETE FROM Salle WHERE nom_salle = '$salle'");
+        $conn->query("DELETE FROM Capteur WHERE nom_cap LIKE '$salle%'");
+    }
+
+    if (isset($_POST['add_capteur']) && !empty($_POST['capteur']) && !empty($_POST['type'])) {
+        $capteur = $conn->real_escape_string($_POST['capteur']);
+        $type = $conn->real_escape_string($_POST['type']);
+        $nom_cap = $capteur . "_" . $type;
+        $conn->query("INSERT INTO Capteur (nom_cap) VALUES ('$nom_cap')");
+    }
+
+    if (isset($_POST['del_capteur']) && !empty($_POST['capteur'])) {
+        $capteur = $conn->real_escape_string($_POST['capteur']);
+        $conn->query("DELETE FROM Capteur WHERE nom_cap = '$capteur'");
+    }
 }
 ?>
 
@@ -26,110 +84,69 @@ if (isset($_GET['logout'])) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnergyWatch - Consultation</title>
+    <title>EnergyWatch - Administration</title>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="icon" href="../images/icon.ico" type="image/x-icon">
 </head>
 <body>
     <header>
-        <a href="../index.html" class="titre-accueil">
-            <h1>EnergyWatch</h1>
-        </a>
-        <button id="menu-toggle" aria-label="Ouvrir le menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+        <a href="../index.html" class="titre-accueil"><h1>EnergyWatch</h1></a>
+        <button id="menu-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
         <nav id="main-nav">
             <ul>
                 <li><a href="administration.php">Administration</a></li>
                 <li><a href="gestion.php">Gestion</a></li>
                 <li><a href="consultation.php">Consultation</a></li>
-                <li><a href="#">Gestion de Projet</a>
-                    <ul class="sous-menu">
-                        <li><a href="gantt.html">GANTT</a></li>
-                        <li><a href="syntheses.html">Synthèses personnelles</a></li>
-                        <li><a href="problemes.html">Problèmes / Solutions</a></li>
-                        <li><a href="conclusion.html">Conclusion</a></li>
-                    </ul>
-                </li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section id="admin">
-            <h2>🔐 Espace Administration</h2>
+        <section id="admin-panel">
+            <div class="consultation-entete">
+                <h1>Espace Administration <a href="?logout=1" class="logout">Déconnexion</a></h1>
+            </div>
 
-            <?php if (!isset($_SESSION['admin'])): ?>
-                <div class="admin-login">
-                    <h3>Connexion administrateur</h3>
-                    <?php if (isset($error)) echo "<p style='color: red;'>$error</p>"; ?>
-                    <form action="administration.php" method="POST">
-                        <label for="login">Identifiant :</label>
-                        <input type="text" name="login" required>
+            <div class="card">
+                <h2>🏫 Gestion des Salles</h2>
+                <form method="post">
+                    <label>Nom salle :
+                        <input type="text" name="salle" required>
+                    </label>
+                    <button type="submit" name="add_salle">Ajouter</button>
+                    <button type="submit" name="del_salle">Supprimer</button>
+                </form>
+            </div>
 
-                        <label for="password">Mot de passe :</label>
-                        <input type="password" name="password" required>
-
-                        <button type="submit">Se connecter</button>
-                    </form>
-                </div>
-            <?php else: ?>
-                <p>Connecté en tant qu'administrateur. <a href="administration.php?logout=true">Se déconnecter</a></p>
-
-                <div class="admin-panel">
-                    <!-- Gestion des bâtiments -->
-                    <h3>🏢 Ajouter un bâtiment</h3>
-                    <form action="traitements/ajouter_batiment.php" method="POST">
-                        <label for="nom_batiment">Nom :</label>
-                        <input type="text" name="nom_batiment" required>
-                        <button type="submit">Ajouter</button>
-                    </form>
-
-                    <!-- Gestion des salles -->
-                    <h3>🏫 Ajouter une salle</h3>
-                    <form action="traitements/ajouter_salle.php" method="POST">
-                        <label for="nom_salle">Nom :</label>
-                        <input type="text" name="nom_salle" required>
-                        <label for="type_salle">Type :</label>
-                        <input type="text" name="type_salle" required>
-                        <label for="capacite">Capacité :</label>
-                        <input type="number" name="capacite" required>
-                        <label for="id_batiment">ID Bâtiment :</label>
-                        <input type="number" name="id_batiment" required>
-                        <button type="submit">Ajouter</button>
-                    </form>
-
-                    <!-- Gestion des capteurs -->
-                    <h3>📟 Ajouter un capteur</h3>
-                    <form action="traitements/ajouter_capteur.php" method="POST">
-                        <label for="nom_capteur">Nom :</label>
-                        <input type="text" name="nom_capteur" required>
-                        <label for="type_capteur">Type :</label>
-                        <input type="text" name="type_capteur" required>
-                        <label for="unite">Unité :</label>
-                        <input type="text" name="unite" required>
-                        <label for="id_salle">ID Salle :</label>
-                        <input type="number" name="id_salle" required>
-                        <button type="submit">Ajouter</button>
-                    </form>
-                </div>
-            <?php endif; ?>
+            <div class="card">
+                <h2>📡 Gestion des Capteurs</h2>
+                <form method="post">
+                    <label>Code Salle (ex: E003) :
+                        <input type="text" name="capteur" required>
+                    </label>
+                    <label>Type :
+                        <select name="type" required>
+                            <option value="temperature">Température</option>
+                            <option value="humidite">Humidité</option>
+                            <option value="luminosite">Luminosité</option>
+                            <option value="co2">CO2</option>
+                        </select>
+                    </label>
+                    <button type="submit" name="add_capteur">Ajouter</button>
+                    <button type="submit" name="del_capteur">Supprimer</button>
+                </form>
+            </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés</p>
     </footer>
 
     <script>
         document.getElementById('menu-toggle').addEventListener('click', function () {
             const nav = document.getElementById('main-nav');
             nav.classList.toggle('active');
-            this.querySelectorAll('span').forEach(span =>
-                span.classList.toggle('active'));
+            this.querySelectorAll('span').forEach(span => span.classList.toggle('active'));
         });
     </script>
 </body>
