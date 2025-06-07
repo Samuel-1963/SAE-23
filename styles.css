@@ -683,6 +683,7 @@ label:hover {
   border-color: #ffd700;
 }
 
+/* Style inputs and selects inside labels */
 label input,
 label select {
   display: block;
@@ -695,20 +696,29 @@ label select {
   width: 100%;
   font-size: 1rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-appearance: none; /* Remove default arrow in some browsers */
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23d4af37" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
 }
 
-/* Fixes the dropdown text color issue */
+/* Force option styles */
 label select option {
   background-color: #1c1c3d;
   color: #ffffff;
 }
 
+/* On focus */
 label input:focus,
 label select:focus {
   border-color: #ffd700;
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
   outline: none;
 }
+
 
 .card label {
   display: block;
