@@ -264,10 +264,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Salle :
                 <select name="nom_salle" required>
                     <option value="">-- Sélectionner --</option>
-                    <option value="E101">E101</option>
-                    <option value="E102">E102</option>
-                    <option value="E207">E207</option>
-                    <option value="E208">E208</option>
+                    <option value="101">E101</option>
+                    <option value="102">E102</option>
+                    <option value="207">E207</option>
+                    <option value="208">E208</option>
                 </select>
             </label><br>
 
