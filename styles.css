@@ -409,7 +409,7 @@ strong {
 
 .stat-label {
   font-size: 1rem;
-  color: rgba(42, 42, 79, 0.8);
+  color: #cccccc;
   margin-top: 5px;
 }
 
@@ -497,12 +497,6 @@ strong {
   font-weight: bold;
   color: #d4af37;
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
-
-.stat-label {
-  font-size: 1rem;
-  color: rgba(42, 42, 79, 0.8);
-  margin-top: 5px;
 }
 
 .controls {
@@ -671,6 +665,46 @@ strong {
 }
 
 /* Form labels and inputs */
+
+label {
+  display: block;
+  margin-bottom: 15px;
+  padding: 12px;
+  background: rgba(42, 42, 79, 0.8);
+  border-left: 5px solid #d4af37;
+  color: #d4af37;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+label:hover {
+  background: rgba(52, 52, 95, 0.9);
+  border-color: #ffd700; /* gold highlight on hover */
+}
+
+label input,
+label select {
+  display: block;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid #d4af37;
+  background: #1c1c3d;
+  color: #ffffff;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+label input:focus,
+label select:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  outline: none;
+}
+
+
 .card label {
   display: block;
   margin-bottom: 10px;
