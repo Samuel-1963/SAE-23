@@ -15,7 +15,7 @@ $password = isset($_POST['password']) ? $_POST['password'] : '';
 
 
 
-    if ($login === 'Administrateur' && $password === 'admih023BGRsfv5$n123') {
+    if ($login === 'Administrateur' && $password === 'h023BGRsfv5$') {
         $_SESSION['admin_connecte'] = true;
     } else {
         // Formulaire de connexion (copié de gestion.php)
@@ -55,18 +55,31 @@ $password = isset($_POST['password']) ? $_POST['password'] : '';
                 </ul>
             </nav>
         </header>
-            <main>
-                <section id="admin">
-                    <h2>🔐 Connexion Administrateur</h2>
+        <main>
+            <section id="admin">
+                <h2>🔐 Connexion à l\'espace administration</h2>
+                
+                <div class="admin-login">
+                    <h3>Connexion Administrateur.</h3>
+                    
+                    '. (isset($error) ? '<p style="color: red;">'.$error.'</p>' : '') .'
+                    
                     <form method="post">
-                        <label for="login">Login :</label>
-                        <input type="text" name="login" required>
+                        <label for="login">Identifiant :</label>
+                        <input type="text" name="login" id="login" required>
+                        
                         <label for="password">Mot de passe :</label>
-                        <input type="password" name="password" required>
+                        <input type="password" name="password" id="password" required>
+                        
                         <button type="submit">Se connecter</button>
                     </form>
-                </section>
-            </main>
+                    
+                    <p>
+                        <a href="../index.html">← Retour à l\'accueil</a>
+                    </p>
+                </div>
+            </section>
+        </main>
         <footer>
             <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
         </footer>
