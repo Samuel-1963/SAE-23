@@ -219,13 +219,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="card">
         <h2>🔧 Gestion des Capteurs</h2>
-        <?php if ($message_capteur) echo "<p>$message_capteur</p>"; ?>
+        <?php if (isset($message_capteur)) echo "<p>$message_capteur</p>"; ?>
+
         <form method="post">
-            <input type="text" name="capteur" placeholder="Nom du capteur (ex: E001_temperature)" required>
+            <!-- Nom du capteur -->
+            <input type="text" name="nom_cap" placeholder="Nom du capteur (ex: E101_luminosite)" required>
+
+            <!-- Type du capteur -->
+            <select name="type_cap" required>
+                <option value="" disabled selected>Type du capteur</option>
+                <option value="Humidité">Humidité</option>
+                <option value="Luminosité">Luminosité</option>
+                <option value="CO2">CO2</option>
+                <option value="Température">Température</option>
+            </select>
+
+            <!-- Unité du capteur -->
+            <select name="unite_cap" required>
+                <option value="" disabled selected>Unité</option>
+                <option value="%">%</option>
+                <option value="°C">°C</option>
+                <option value="ppm">ppm</option>
+                <option value="lux">lux</option>
+            </select>
+
+            <!-- Salle du capteur -->
+            <select name="nom_salle" required>
+                <option value="" disabled selected>Salle</option>
+                <option value="E101">E101</option>
+                <option value="E102">E102</option>
+                <option value="E207">E207</option>
+                <option value="E208">E208</option>
+            </select>
+
+            <!-- Boutons d'action -->
             <button name="ajouter_capteur" type="submit">➕ Ajouter</button>
             <button name="supprimer_capteur" type="submit">➖ Supprimer</button>
         </form>
     </div>
+
 
     <div class="card">
         <h2>📋 Liste des salles existantes</h2>
