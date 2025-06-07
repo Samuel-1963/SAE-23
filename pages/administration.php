@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn->query("DELETE FROM Mesure WHERE nom_cap = '$nom_cap'");
 
             // Then delete the sensor
-            $result = $conn->query("DELETE FROM sae23.Capteur WHERE nom_cap = '$nom_cap'");
+            $result = $conn->query("DELETE FROM sae23.Capteur WHERE Capteur.nom_cap = '$nom_cap'");
 
             // Feedback message
             $message_capteur = $result ? "✅ Sensor '$nom_cap' deleted." : "❌ Sensor not found or deletion failed.";
