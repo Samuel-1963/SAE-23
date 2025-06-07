@@ -14,6 +14,7 @@ $login = isset($_POST['login']) ? $_POST['login'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
 
+
     if ($login === 'Administrateur' && $password === 'admih023BGRsfv5$n123') {
         $_SESSION['admin_connecte'] = true;
     } else {
