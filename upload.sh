@@ -3,7 +3,7 @@
 BROKER_HOST="iot.iut-blagnac.fr"
 USERNAME="student"
 PASSWORD="student"
-PHP_URL="http://localhost/insert.php"
+PHP_URL="http://localhost/sae23/script/insert.php"
 
 send_value() {
     local nom_cap=$1
