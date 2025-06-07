@@ -659,7 +659,6 @@ strong {
   padding: 20px 30px;
   margin: 20px 0;
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-  color: #f0e68c;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -669,7 +668,6 @@ strong {
   font-weight: 700;
   font-size: 1.5em;
   color: #ffd700;
-  text-shadow: 0 0 8px #d4af37;
 }
 
 /* Form labels and inputs */

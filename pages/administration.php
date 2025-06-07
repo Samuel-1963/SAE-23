@@ -184,7 +184,7 @@ if (isset($_POST['supprimer_capteur'])) {
         if ($deleteCapteur) {
             $message_capteur = "✅ Capteur '$nom_cap' supprimé.";
         } else {
-            $message_capteur = "❌ Échec de la suppression du capteur. Vérifie s’il existe.";
+            $message_capteur = "❌ Échec de la suppression du capteur. Vérifie s'il existe.";
         }
     } else {
         $message_capteur = "❌ Le nom du capteur ne peut pas être vide.";
