@@ -168,11 +168,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Deleting a sensor
     if (isset($_POST['supprimer_capteur'])) {
-        $nom_cap = $conn->real_escape_string($_POST['nom_cap']);
+        $nom_cap = $conn->real_escape_string($_POST['Capteur.nom_cap']);
 
         if (!empty($nom_cap)) {
             // Delete measurements first due to foreign key constraints
-            $conn->query("DELETE FROM Mesure WHERE nom_cap = '$nom_cap'");
+            $conn->query("DELETE FROM Mesure WHERE Capteur.nom_cap = '$nom_cap'"); 
 
             // Then delete the sensor
             $result = $conn->query("DELETE FROM sae23.Capteur WHERE Capteur.nom_cap = '$nom_cap'");
