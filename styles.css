@@ -671,9 +671,89 @@ strong {
   background: rgba(28, 28, 61, 0.8);
   border: 2px solid #d4af37;
   border-radius: 10px;
-  padding: 20px;
+  padding: 20px 30px;
   margin: 20px 0;
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  color: #f0e68c;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Headings inside cards */
+.card h2 {
+  margin-top: 0;
+  font-weight: 700;
+  font-size: 1.5em;
+  color: #ffd700;
+  text-shadow: 0 0 8px #d4af37;
+}
+
+/* Form labels and inputs */
+.card label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.card input[type="text"],
+.card select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1.5px solid #d4af37;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.card input[type="text"]:focus,
+.card select:focus {
+  border-color: #ffd700;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Buttons */
+.card button {
+  background-color: #d4af37;
+  border: none;
+  padding: 10px 25px;
+  font-size: 1em;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #1c1c3d;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.7);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 10px;
+}
+
+.card button:hover {
+  background-color: #ffd700;
+  color: #000;
+}
+
+/* Messages */
+.card p {
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+/* Lists */
+.card ul {
+  padding-left: 20px;
+  color: #fffacd;
+  font-size: 1.1em;
+  list-style-type: square;
+}
+
+/* Responsive spacing */
+@media (min-width: 600px) {
+  .card {
+    padding: 30px 40px;
+  }
 }
 
 /* Form elements */

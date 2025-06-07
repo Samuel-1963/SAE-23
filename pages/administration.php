@@ -108,25 +108,6 @@ $message_capteur = '';
 
 // Traitement des formulaires
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ajout d'une salle
-    if (isset($_POST['ajouter_salle'])) {
-        $salle = $conn->real_escape_string($_POST['salle']);
-        if (!empty($salle)) {
-            $result = $conn->query("INSERT INTO Salle (nom_salle) VALUES ('$salle')");
-            $message_salle = $result ? "✅ Salle '$salle' ajoutée avec succès." : "❌ Erreur lors de l'ajout.";
-        }
-    }
-
-    // Suppression d'une salle
-    if (isset($_POST['supprimer_salle'])) {
-        $salle = $conn->real_escape_string($_POST['salle']);
-        if (!empty($salle)) {
-            $conn->query("DELETE FROM Capteur WHERE nom_cap LIKE '$salle%'");
-            $result = $conn->query("DELETE FROM Salle WHERE nom_salle = '$salle'");
-            $message_salle = $result ? "✅ Salle '$salle' supprimée." : "❌ Erreur lors de la suppression.";
-        }
-    }
-
     if (isset($_POST['ajouter_capteur'])) {
         // Escape user input
         $nom_cap = $conn->real_escape_string($_POST['nom_cap']);
@@ -245,16 +226,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <section id="admin">
     <div class="consultation-entete">
         <h1>Administration <a href="administration.php?logout=1" class="logout">Déconnexion</a></h1>
-    </div>
-
-    <div class="card">
-        <h2>🏠 Gestion des Salles</h2>
-        <?php if ($message_salle) echo "<p>$message_salle</p>"; ?>
-        <form method="post">
-            <input type="text" name="salle" placeholder="Nom de la salle (ex: E001)" required>
-            <button name="ajouter_salle" type="submit">➕ Ajouter</button>
-            <button name="supprimer_salle" type="submit">➖ Supprimer</button>
-        </form>
     </div>
 
     <div class="card">
