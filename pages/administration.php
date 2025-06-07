@@ -129,12 +129,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Ajout d'un capteur
     if (isset($_POST['ajouter_capteur'])) {
-        $capteur = $conn->real_escape_string($_POST['capteur']);
-        if (!empty($capteur)) {
-            $result = $conn->query("INSERT INTO Capteur (nom_cap) VALUES ('$capteur')");
-            $message_capteur = $result ? "✅ Capteur '$capteur' ajouté." : "❌ Erreur lors de l'ajout.";
+        $nom_cap = $conn->real_escape_string($_POST['nom_cap']);
+        $type_cap = $_POST['type_cap'];
+        $unite_cap = $_POST['unite_cap'];
+        $nom_salle = $_POST['nom_salle'];
+
+        // Listes de choix valides
+        $types_valides = ["Humidité", "Luminosité", "CO2", "Température"];
+        $unites_valides = ["%", "°C", "ppm", "lux"];
+        $salles_valides = ["E101", "E102", "E207", "E208"];
+
+        // Vérification des champs
+        if (!empty($nom_cap) && in_array($type_cap, $types_valides) && in_array($unite_cap, $unites_valides) && in_array($nom_salle, $salles_valides)) {
+            $stmt = $conn->prepare("INSERT INTO sae23.Capteur (nom_cap, type_cap, unite_cap, nom_salle) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $nom_cap, $type_cap, $unite_cap, $nom_salle);
+            $result = $stmt->execute();
+
+            $message_capteur = $result ? "✅ Capteur '$nom_cap' ajouté avec succès." : "❌ Erreur lors de l'ajout du capteur.";
+            $stmt->close();
+        } else {
+            $message_capteur = "❌ Données invalides. Vérifie les sélections.";
         }
     }
+
 
     // Suppression d'un capteur
     if (isset($_POST['supprimer_capteur'])) {
