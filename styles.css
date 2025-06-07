@@ -763,10 +763,10 @@ strong {
 }
 
 /* Additional sensor type colors */
-.sensor-tem { color: #ff6b6b; font-weight: bold; }
-.sensor-hum { color: #4ecdc4; font-weight: bold; }
-.sensor-lum { color: #f9c74f; font-weight: bold; }
-.sensor-co2 { color: #a9df85; font-weight: bold; }
+.sensor-tem { color: #ff6b6b !important; font-weight: bold; }
+.sensor-hum { color: #4ecdc4 !important; font-weight: bold; }
+.sensor-lum { color: #f9c74f !important; font-weight: bold; }
+.sensor-co2 { color: #a9df85 !important; font-weight: bold; }
 
 /* ===== FOOTER ===== */
 footer {
