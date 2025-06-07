@@ -166,23 +166,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    // Deleting a sensor
-    if (isset($_POST['supprimer_capteur'])) {
-        $nom_cap = $conn->real_escape_string($_POST['nom_cap']);
+// Deleting a sensor
+if (isset($_POST['supprimer_capteur'])) {
+    // Trim and escape user input
+    $nom_cap = trim($conn->real_escape_string($_POST['nom_cap']));
 
-        if (!empty($nom_cap)) {
-            // Delete measurements first due to foreign key constraints
-            $conn->query("DELETE FROM Mesure WHERE Capteur.nom_cap = '$nom_cap'"); 
+    if (!empty($nom_cap)) {
+        // Delete measurements first due to foreign key constraints
+        $deleteMesures = $conn->query("DELETE FROM sae23.Mesure WHERE nom_cap = '$nom_cap'");
 
-            // Then delete the sensor
-            $result = $conn->query("DELETE FROM sae23.Capteur WHERE Capteur.nom_cap = '$nom_cap'");
+        // Then delete the sensor
+        $deleteCapteur = $conn->query("DELETE FROM sae23.Capteur WHERE nom_cap = '$nom_cap'");
 
-            // Feedback message
-            $message_capteur = $result ? "✅ Sensor '$nom_cap' deleted." : "❌ Sensor not found or deletion failed.";
+        // Feedback message
+        if ($deleteCapteur) {
+            $message_capteur = "✅ Capteur '$nom_cap' supprimé.";
         } else {
-            $message_capteur = "❌ Sensor name cannot be empty.";
+            $message_capteur = "❌ Échec de la suppression du capteur. Vérifie s’il existe.";
         }
+    } else {
+        $message_capteur = "❌ Le nom du capteur ne peut pas être vide.";
     }
+}
+
 }
 ?>
 
