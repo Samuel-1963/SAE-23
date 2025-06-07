@@ -134,21 +134,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $unite_cap = $_POST['unite_cap'];
         $nom_salle = $_POST['nom_salle'];
 
+        // Remove leading "E" from room name if present (uppercase E only)
+        if (stripos($nom_salle, 'E') === 0) {
+            $nom_salle_trimmed = substr($nom_salle, 1);
+        } else {
+            $nom_salle_trimmed = $nom_salle;
+        }
+
         // Valid values for dropdowns
         $valid_types = ["Humidité", "Luminosité", "CO2", "Température"];
         $valid_units = ["%", "°C", "ppm", "lux"];
         $valid_rooms = ["101", "102", "207", "208"];
 
+        // Debug info for validation
+        $debug_msgs = [];
+
+        if (empty($nom_cap)) {
+            $debug_msgs[] = "Sensor name is empty.";
+        }
+        if (!in_array($type_cap, $valid_types)) {
+            $debug_msgs[] = "Invalid sensor type: '$type_cap'.";
+        }
+        if (!in_array($unite_cap, $valid_units)) {
+            $debug_msgs[] = "Invalid unit: '$unite_cap'.";
+        }
+        if (!in_array($nom_salle_trimmed, $valid_rooms)) {
+            $debug_msgs[] = "Invalid room: '$nom_salle' (trimmed to '$nom_salle_trimmed').";
+        }
+
         // Validate inputs
-        if (!empty($nom_cap) && in_array($type_cap, $valid_types) && in_array($unite_cap, $valid_units) && in_array($nom_salle, $valid_rooms)) {
+        if (empty($debug_msgs)) {
             // Prepare statement
             $stmt = $conn->prepare("INSERT INTO sae23.Capteur (nom_cap, type_cap, unite_cap, nom_salle) VALUES (?, ?, ?, ?)");
             if ($stmt === false) {
-                // Preparation failed, show error
                 $message_capteur = "❌ Prepare failed: (" . $conn->errno . ") " . $conn->error;
             } else {
-                // Bind parameters and execute
-                $stmt->bind_param("ssss", $nom_cap, $type_cap, $unite_cap, $nom_salle);
+                // Use trimmed room name for insertion (without the leading E)
+                $stmt->bind_param("ssss", $nom_cap, $type_cap, $unite_cap, $nom_salle_trimmed);
                 if ($stmt->execute()) {
                     $message_capteur = "✅ Sensor '$nom_cap' successfully added.";
                 } else {
@@ -157,9 +179,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->close();
             }
         } else {
-            $message_capteur = "❌ Invalid data. Please check your selections.";
+            // Display detailed invalid data messages
+            $message_capteur = "❌ Invalid data: " . implode(" ", $debug_msgs);
         }
     }
+
 
     // Deleting a sensor
     if (isset($_POST['supprimer_capteur'])) {
