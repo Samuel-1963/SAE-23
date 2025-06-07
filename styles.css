@@ -602,21 +602,6 @@ strong {
   color: #f0f0f0;
 }
 
-.sensor-temp {
-  color: #ff6b6b;
-  font-weight: bold;
-}
-
-.sensor-humidity {
-  color: #4ecdc4;
-  font-weight: bold;
-}
-
-.sensor-pressure {
-  color: #a9df85;
-  font-weight: bold;
-}
-
 .footer {
   text-align: center;
   color: #d4af37;

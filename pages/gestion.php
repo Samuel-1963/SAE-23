@@ -306,9 +306,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recherche'])) {
                             } elseif (strpos($m['nom_cap'], 'co2') !== false) {
                                 $classe = 'sensor-co2';
                                 $unite = 'ppm';
-                            } elseif (strpos($m['nom_cap'], 'press') !== false) {
-                                $classe = 'sensor-pressure';
-                                $unite = 'hPa';
                             }
                             
                             echo "<tr>

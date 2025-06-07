@@ -49,61 +49,64 @@
                             <th>Date</th>
                             <th>Heure</th>
                             <th>Capteur</th>
+                            <th>Salle</th>
                             <th>Valeur</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        // Creating the connection
                         $servername = "localhost";
                         $username = "guerin";
                         $password = "passroot";
                         $dbname = "sae23";
-                        
-                        // Création de la connexion
+
                         $conn = new mysqli($servername, $username, $password, $dbname);
-                        
-                        // Check connection
+
                         if ($conn->connect_error) {
                             die("Échec de la connexion : " . $conn->connect_error);
                         }
-                        
-                        // SQL query to retrieve the last 50 measurements
-                        $sql = "SELECT date_mesure, horaire_mesure, nom_cap, valeur_mesure 
-                                FROM Mesure 
-                                ORDER BY date_mesure DESC, horaire_mesure DESC ";
+
+                        // Requête avec jointure pour obtenir la salle
+                        $sql = "SELECT m.date_mesure, m.horaire_mesure, c.nom_cap, c.nom_salle, m.valeur_mesure
+                                FROM Mesure m
+                                JOIN Capteur c ON m.nom_cap = c.nom_cap
+                                ORDER BY m.date_mesure DESC, m.horaire_mesure DESC
+                                LIMIT 50";
+
                         $result = $conn->query($sql);
-                        
-                        // Check if there are any results
+
                         if ($result->num_rows > 0) {
-                            // Display data for each row
                             while($row = $result->fetch_assoc()) {
-                                // Determine CSS class based on sensor type
+                                // Classe CSS selon le type de capteur
                                 $sensorClass = '';
-                                if (strpos($row["nom_cap"], 'temp') !== false) {
+                                if (stripos($row["nom_cap"], 'temp') !== false) {
                                     $sensorClass = 'sensor-temp';
-                                } elseif (strpos($row["nom_cap"], 'hum') !== false) {
+                                    $unit = "°C";
+                                } elseif (stripos($row["nom_cap"], 'hum') !== false) {
                                     $sensorClass = 'sensor-humidity';
-                                } elseif (strpos($row["nom_cap"], 'press') !== false) {
-                                    $sensorClass = 'sensor-pressure';
+                                    $unit = "%";
+                                } elseif (stripos($row["nom_cap"], 'lum') !== false) {
+                                    $sensorClass = 'sensor-light';
+                                    $unit = "lux";
+                                } elseif (stripos($row["nom_cap"], 'co2') !== false) {
+                                    $sensorClass = 'sensor-co2';
+                                    $unit = "ppm";
+                                } else {
+                                    $unit = "";
                                 }
-                                
+
                                 echo "<tr>";
                                 echo "<td>" . htmlspecialchars($row["date_mesure"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["horaire_mesure"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["nom_cap"]) . "</td>";
-                                echo "<td class='" . $sensorClass . "'>" . htmlspecialchars($row["valeur_mesure"]) . 
-                                    (strpos($row["nom_cap"], 'temp') !== false ? " °C" : 
-                                    (strpos($row["nom_cap"], 'hum') !== false ? " %" : 
-                                    (strpos($row["nom_cap"], 'press') !== false ? " hPa" : ""))) . 
-                                    "</td>";
+                                echo "<td>" . htmlspecialchars($row["nom_salle"]) . "</td>";
+                                echo "<td class='" . $sensorClass . "'>" . htmlspecialchars($row["valeur_mesure"]) . " " . $unit . "</td>";
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='4'>Aucune donnée disponible</td></tr>";
+                            echo "<tr><td colspan='5'>Aucune donnée disponible</td></tr>";
                         }
-                        
-                        // Close connection
+
                         $conn->close();
                         ?>
                     </tbody>
