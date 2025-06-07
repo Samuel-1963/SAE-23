@@ -110,10 +110,12 @@ $message_capteur = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['ajouter_capteur'])) {
         // Escape user input
-        $nom_cap = $conn->real_escape_string($_POST['nom_cap']);
-        $type_cap = $_POST['type_cap'];
-        $unite_cap = $_POST['unite_cap'];
+        $nom_cap = trim($conn->real_escape_string($_POST['nom_cap']));
+        $type_unite = $_POST['type_unite'];
         $nom_salle = $_POST['nom_salle'];
+
+        // Separation type and unit
+        list($type_cap, $unite_cap) = explode('|', $type_unite);
 
         // Remove leading "E" from room name if present (uppercase E only)
         if (stripos($nom_salle, 'E') === 0) {
@@ -242,23 +244,13 @@ if (isset($_POST['supprimer_capteur'])) {
                 <input type="text" name="nom_cap" placeholder="Ex: E101_temperature" required>
             </label><br>
 
-            <label>Type :
-                <select name="type_cap" required>
+            <label>Type de capteur :
+                <select name="type_unite" required>
                     <option value="">-- Sélectionner --</option>
-                    <option value="Humidité">Humidité</option>
-                    <option value="Luminosité">Luminosité</option>
-                    <option value="CO2">CO2</option>
-                    <option value="Température">Température</option>
-                </select>
-            </label><br>
-
-            <label>Unité :
-                <select name="unite_cap" required>
-                    <option value="">-- Sélectionner --</option>
-                    <option value="%">%</option>
-                    <option value="°C">°C</option>
-                    <option value="ppm">ppm</option>
-                    <option value="lux">lux</option>
+                    <option value="Humidité|%">Humidité (%)</option>
+                    <option value="Luminosité|lux">Luminosité (lux)</option>
+                    <option value="CO2|ppm">CO2 (ppm)</option>
+                    <option value="Température|°C">Température (°C)</option>
                 </select>
             </label><br>
 
