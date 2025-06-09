@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyWatch - Conclusion</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../images/icon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="titre-accueil">
+            <h1>EnergyWatch</h1>
+        </a>
+        <button id="menu-toggle" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="administration.php">Administration</a></li>
+                <li><a href="gestion.php">Gestion</a></li>
+                <li><a href="consultation.php">Consultation</a></li>
+                <li><a href="#">Gestion de Projet</a>
+                    <ul class="sous-menu">
+                        <li><a href="gantt.html">GANTT</a></li>
+                        <li><a href="syntheses.html">Synthèses personnelles</a></li>
+                        <li><a href="problemes.html">Problèmes / Solutions</a></li>
+                        <li><a href="conclusion.html">Conclusion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Conclusion du projet</h2>
+            <p>Ce projet EnergyWatch nous a permis de mettre en pratique des compétences variées : base de données, développement web en PHP, conteneurisation avec Docker, et outils de visualisation de données comme Grafana ou Node-RED.</p>
+
+            <div class="card">
+                <h3>📋 Respect du cahier des charges</h3>
+                <p>
+                    Nous sommes globalement très satisfaits du travail accompli. Le cahier des charges a été respecté dans son ensemble :
+                    les pages <a href="gestion.php"><strong>gestion.php</strong></a>,
+                    <a href="consultation.php"><strong>consultation.php</strong></a> et
+                    <a href="administration.php"><strong>administration.php</strong></a>
+                    sont toutes fonctionnelles, intégrées et conformes aux objectifs fixés.
+                </p>
+            </div>
+
+
+            <div class="card">
+                <h3>🌐 Ce que nous aurions aimé faire en plus</h3>
+                <p>Nous aurions aimé pouvoir héberger le site en ligne. Cependant, les hébergeurs gratuits disponibles ne prenaient pas en charge un environnement complet de type LAMPP (Linux, Apache, MySQL, PHP), rendant impossible l'utilisation de notre code PHP sans recourir à un serveur local.</p>
+            </div>
+
+            <div class="card">
+                <h3>🏢 Extension du projet</h3>
+                <p>Nous aurions également souhaité ajouter davantage de bâtiments à surveiller. Malheureusement, les données des capteurs de ces bâtiments n’étaient pas disponibles dans la base de données. Ce manque de données a limité l’extension de notre système de gestion énergétique.</p>
+            </div>
+
+            <div class="card">
+                <h3>✅ Bilan général</h3>
+                <p>Le projet a été une réussite, tant sur le plan technique que collaboratif. Malgré les obstacles rencontrés (lenteur des machines, problèmes de compatibilité), nous avons su nous organiser efficacement et livrer un projet fonctionnel, complet, et fidèle à nos objectifs initiaux.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+            this.querySelectorAll('span').forEach(span =>
+                span.classList.toggle('active'));
+        });
+    </script>
+</body>
+</html>

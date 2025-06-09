@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyWatch - Problèmes / Solutions</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../images/icon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="titre-accueil">
+            <h1>EnergyWatch</h1>
+        </a>
+        <button id="menu-toggle" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="administration.php">Administration</a></li>
+                <li><a href="gestion.php">Gestion</a></li>
+                <li><a href="consultation.php">Consultation</a></li>
+                <li><a href="#">Gestion de Projet</a>
+                    <ul class="sous-menu">
+                        <li><a href="gantt.html">GANTT</a></li>
+                        <li><a href="syntheses.html">Synthèses personnelles</a></li>
+                        <li><a href="problemes.html">Problèmes / Solutions</a></li>
+                        <li><a href="conclusion.html">Conclusion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Problèmes rencontrés et solutions proposées</h2>
+            <p>Voici une liste des principales difficultés rencontrées durant le projet, accompagnées des solutions mises en œuvre ou envisagées pour y remédier.</p>
+
+            <!-- Problème 1 -->
+            <div class="card">
+                <h3>📦 Téléversement des machines virtuelles à chaque séance</h3>
+                <p><strong>Problème :</strong> À chaque début et fin de séance, nous devions transférer les machines virtuelles, ce qui prenait beaucoup de temps.</p>
+                <p><strong>Solution :</strong> Nous avons tenté de garder le même poste de travail d'une séance à l'autre. Cela dépendait néanmoins du changement de salle, ce qui ne permettait pas toujours cette solution.</p>
+            </div>
+
+            <!-- Problème 2 -->
+            <div class="card">
+                <h3>🌐 Problème d'IP avec Docker</h3>
+                <p><strong>Problème :</strong> Les conteneurs Docker nécessitaient un redémarrage pour obtenir une adresse IP correcte à chaque changement de poste ou de salle.</p>
+                <p><strong>Solution :</strong> Redémarrer systématiquement les conteneurs à chaque session. Cela a été intégré dans notre routine de démarrage, bien que non optimal.</p>
+            </div>
+
+            <!-- Problème 3 -->
+            <div class="card">
+                <h3>⚙️ Ancienne version du serveur XAMPP</h3>
+                <p><strong>Problème :</strong> Le serveur XAMPP utilisé était basé sur une version obsolète, nous obligeant à coder en PHP 5.5 au lieu d'utiliser PHP 7.</p>
+                <p><strong>Solution :</strong> Nous avons adapté notre code pour rester compatible avec PHP 5.5, en évitant certaines fonctionnalités modernes non supportées. Ce compromis a ralenti le développement mais a permis la compatibilité.</p>
+            </div>
+
+            <!-- Problème 4 -->
+            <div class="card">
+                <h3>🐢 Lenteur des machines virtuelles</h3>
+                <p><strong>Problème :</strong> Les machines virtuelles étaient très lentes, affectant la productivité et le confort de travail.</p>
+                <p><strong>Solution :</strong> Nous avons limité l'utilisation de logiciels gourmands et tenté de répartir les tâches pour que seules certaines personnes travaillent directement sur les VM pendant que d'autres développaient en parallèle sur leurs postes physiques.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 EnergyWatch - Tous droits réservés | <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+            this.querySelectorAll('span').forEach(span =>
+                span.classList.toggle('active'));
+        });
+    </script>
+</body>
+</html>
